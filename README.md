@@ -122,11 +122,6 @@ with open("HiddenPosts.json", "w") as file:
     json.dump(deso.Posts.getHiddenPosts(publicKey), file)
 ```
 
-More docs coming soon!
-
-Found any issue ? Report us on our [repo](https://github.com/AdityaChaudhary0005/DeSo.py)
-
-Tip the author of this module some #CLOUT at: [@ItsAditya](https://bitclout.com/u/ItsAditya) (even 1 diamond counts :)
 
 ### Buying creator coin of a user
 
@@ -231,3 +226,8 @@ with open("NftPostInfo.json", "w") as file:
      json.dump(niftyInfo, file)
 ```    
 
+More docs coming soon!
+
+Found any issue ? Report us on our [repo](https://github.com/AdityaChaudhary0005/DeSo.py)
+
+Tip the author of this module some $DeSo at: [@ItsAditya](https://bitclout.com/u/ItsAditya) (even 1 diamond counts :)
