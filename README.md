@@ -201,6 +201,39 @@ imageFileList=[
 urlResponse = post.uploadImage(imageFileList)
 print(urlResponse) # sample response: {"ImageURL":"https://images.bitclout.com/654c5d57a6f61b053290e232daa8242b7b3f156df20dacac0d20c6b00e0aeb18.webp"}
 ```
+### Posting image on arweave
+```python
+import deso
+#arweave.json is the JSON file of you arweave wallet. Get one at ardrive.io
+arweaveURL = deso.Nft.uploadToArweave(
+    wallet = "arweave.json",
+    image = "image.png"
+)
+print(arweaveURL) # returns arweave image URL
+```
+
+### Minting NFT on deso
+```python
+
+import deso
+SEED_HEX = "" #your seed hex
+PUBLIC_KEY  = "" #Your public key
+#uploading image to arweave. Here arweave.json is your arweave wallet JSON file. Get one at ardrive.io
+arweaveURL = deso.Nft.uploadToArweave(
+    wallet = "arweave.json",
+    image = "image.png"
+)
+#posting image on DeSo
+post = deso.Post(SEED_HEX, PUBLIC_KEY)
+postResponse = post.send("This is the test NFT made by DeSo.py SD",
+                     imageUrl=[str(arweaveURL)])
+postHashHex = postResponse["postHashHex"]
+status = post.mint(postHashHex, minBidDeSo=0.1, copy = 10)
+if status == 200:
+    print(f"NFT is live at https://diamondapp.com/nft/{postHashHex}")
+else:
+    print(status)
+```
 
 ### Sending direct message on DeSo
 ```python
@@ -225,6 +258,7 @@ with open("NftPostInfo.json", "w") as file:
      niftyInfo = deso.Nft.getNFT(postHashHex)
      json.dump(niftyInfo, file)
 ```    
+
 
 More docs coming soon!
 

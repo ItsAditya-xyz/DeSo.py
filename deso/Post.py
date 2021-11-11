@@ -54,4 +54,26 @@ class Post:
         submitPayload = {"TransactionHex": signedTransactionHex}
         endpointURL = ROUTE + "submit-transaction"
         submitResponse = requests.post(endpointURL, json=submitPayload)
-        return submitResponse.status_code  # returns 200 if buy is succesful
+        return {"status":submitResponse.status_code , "postHashHex": submitResponse.json()["TxnHashHex"]} # returns 200
+
+    def mint(self, postHashHex, minBidDeSo,  copy=1, creatorRoyality=5, coinHolderRoyality=10, isForSale=True):
+            ROUTE = getRoute()
+            endpointURL = ROUTE + "create-nft"
+            payload = {"UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                        "NFTPostHashHex": postHashHex,
+                        "NumCopies": copy,
+                        "NFTRoyaltyToCreatorBasisPoints": round(creatorRoyality*100),
+                        "NFTRoyaltyToCoinBasisPoints": round(coinHolderRoyality*10), 
+                        "HasUnlockable": False, 
+                        "IsForSale": isForSale, "MinBidAmountNanos": round( minBidDeSo * 1e9),
+                        "MinFeeRateNanosPerKB": 1000}
+            response = requests.post(endpointURL, json=payload)
+            transactionHex = response.json()["TransactionHex"]
+            signedTransactionHex = Sign_Transaction(
+                self.SEED_HEX, transactionHex
+            )  # txn signature
+
+            submitPayload = {"TransactionHex": signedTransactionHex}
+            endpointURL = ROUTE + "submit-transaction"
+            submitResponse = requests.post(endpointURL, json=submitPayload)
+            return submitResponse.status_code  # returns 200 if buy is succesful

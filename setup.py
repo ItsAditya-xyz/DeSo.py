@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 DESCRIPTION = 'A python module for DeSo'
 LONG_DESCRIPTION = 'A package that allows to fetch various information from the DeSo blockchain using the bitclout APIs (by default). DeSo is a decentralised social media network'
 # Setting up
@@ -20,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=["PyJWT", "ecdsa"],
+    install_requires=["PyJWT", "ecdsa", "arweave-python-client"],
     keywords=['deso' ,'python', 'bitclout', 'social media', 'crypto', 'blockchain', 'decentralisation'],
     classifiers=[
         "Development Status :: 1 - Planning",
