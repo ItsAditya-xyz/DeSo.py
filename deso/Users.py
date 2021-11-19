@@ -38,7 +38,6 @@ class Users:
             endpointURL = route + "get-users-stateless"
             response = requests.post(endpointURL, json = payload)
             responseJson = response.json()
-            print(response.json())
             finalResponse = {
             }
             if includeCreatorCoin:    
@@ -46,7 +45,6 @@ class Users:
                 finalResponse["CoinsHeldInfo"] = coinHeld
 
             CloutInWallet = responseJson["UserList"][0]["BalanceNanos"]
-            print(CloutInWallet)
             finalResponse["CloutInWalletNanos"] =  CloutInWallet
             return finalResponse
         except Exception as e:
