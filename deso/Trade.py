@@ -53,7 +53,10 @@ class Trade:
                 else:
                     return -1
         return -1
-
+    def amountOnSell(bitcloutLockedNanos, coinsInCirculation, balanceNanos):
+        beforeFees = bitcloutLockedNanos * (1 - pow( (1-balanceNanos/coinsInCirculation), (1 / 0.3333333)))
+        return ((beforeFees * (100*100 -1)) / (100*100))
+        
     def sell(self, keyToSell, coinsToSellNanos=0, sellMax=False):
         coinsToSell = coinsToSellNanos
         if sellMax == True:

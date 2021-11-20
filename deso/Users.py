@@ -29,7 +29,16 @@ class Users:
         endpointURL = route + "get-users-stateless"
         response = requests.post(endpointURL, json = payload)
         return response.json()["UserList"][0]["BlockedPubKeys"]
+    def getUsernameFromKey(publicKey):
+        route = getRoute()
+        endpointURL = route + "get-single-profiles"
+        payload= {"PublicKeyBase58Check":publicKey,"Username":""}
+        response = requests.post(url=endpointURL, json=payload)
 
+        try:
+            return response.json()["Profile"]["Username"]
+        except Exception as e:
+            return publicKey
     def getWallet(publicKey, includeCreatorCoin = True): 
         #returns $CLOUTs in wallet and Creators coins on whom the user has invested in
         try:
