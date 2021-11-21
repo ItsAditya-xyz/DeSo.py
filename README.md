@@ -258,7 +258,15 @@ with open("NftPostInfo.json", "w") as file:
      niftyInfo = deso.Nft.getNFT(postHashHex)
      json.dump(niftyInfo, file)
 ```    
-
+### Getting (recent) Transaction info of public key 
+```python
+import deso
+import json
+with open("test.json", "w") as file:
+    publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
+    json.dump(deso.Users.getTransactionInfo(publicKey=publicKey), file)
+    '''by default this function returns last 200 transactions, you can play around with the parameters :)
+```
 
 More docs coming soon!
 
