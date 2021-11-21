@@ -265,7 +265,19 @@ import json
 with open("test.json", "w") as file:
     publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
     json.dump(deso.Users.getTransactionInfo(publicKey=publicKey), file)
-    '''by default this function returns last 200 transactions, you can play around with the parameters :)
+    #by default this function returns last 200 transactions, you can play around with the parameters :
+```
+
+### Getting Notifications of user through public Key
+```python
+import deso
+import json
+
+with open("test.json", "w") as file:
+    publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
+    json.dump(deso.Users.getNotifications(publicKey= publicKey), file)
+    #by defualt it returns last 50 notifs. You can play with the arguments :)
+
 ```
 
 More docs coming soon!

@@ -84,3 +84,13 @@ class Users:
         endpointURL = "https://api.bitclout.com/api/v1/transaction-info"
         response = requests.post(endpointURL, json=payload)
         return response.json()
+
+
+    def getNotifications(publicKey, startIndex = -1, numToFetch = 50):
+        payload = {"PublicKeyBase58Check": publicKey,
+                   "FetchStartIndex": startIndex,
+                   "NumToFetch": numToFetch}
+        route = getRoute()
+        endpointURL = route + "get-notifications"
+        response = requests.post(endpointURL, json=payload)
+        return response.json()
