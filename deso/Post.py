@@ -26,7 +26,7 @@ class Post:
         return response.text
 
 
-    def send(self, content, imageUrl=[]):
+    def send(self, content, imageUrl=[], postExtraData={}):
         header = {
             "content-type": "application/json"
         }
@@ -37,7 +37,7 @@ class Post:
                 "Title": "",
                 "BodyObj": {"Body": content, "ImageURLs": imageUrl},
                 "RecloutedPostHashHex": "",
-                "PostExtraData": {},
+                "PostExtraData": postExtraData,
                 "Sub": "",
                 "IsHidden":  False,
                 "MinFeeRateNanosPerKB": 1000
