@@ -63,7 +63,7 @@ class Post:
                         "NFTPostHashHex": postHashHex,
                         "NumCopies": copy,
                         "NFTRoyaltyToCreatorBasisPoints": round(creatorRoyality*100),
-                        "NFTRoyaltyToCoinBasisPoints": round(coinHolderRoyality*10), 
+                        "NFTRoyaltyToCoinBasisPoints": round(coinHolderRoyality*100), 
                         "HasUnlockable": False, 
                         "IsForSale": isForSale, "MinBidAmountNanos": round( minBidDeSo * 1e9),
                         "MinFeeRateNanosPerKB": 1000}
