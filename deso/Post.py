@@ -76,4 +76,4 @@ class Post:
             submitPayload = {"TransactionHex": signedTransactionHex}
             endpointURL = ROUTE + "submit-transaction"
             submitResponse = requests.post(endpointURL, json=submitPayload)
-            return submitResponse.status_code  # returns 200 if buy is succesful
+            return submitResponse.status_code  # returns 200 if mint is succesful
