@@ -1,5 +1,7 @@
 from .deso import Deso
 from .diamonds import Diamonds
+from .message import Message
+from .nft import NFT
 
 # Library conf
 __author__ = "Aditya Chaudhary"

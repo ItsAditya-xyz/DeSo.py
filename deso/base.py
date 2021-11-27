@@ -6,8 +6,9 @@ from .endpoints import Route
 
 
 class BaseClient:
-    def __init__(self, public_key) -> None:
+    def __init__(self, public_key, seed_hex) -> None:
         self.public_key = public_key
+        self.seed_hex = seed_hex
 
         # Get the __version__ from the package
         from deso import __version__
@@ -52,4 +53,4 @@ class BaseClient:
                 raise ValueError("405, Method Not Allowed")
 
             # Return the response JSON
-            return response.json()
+            return response.status_code, response.json()
