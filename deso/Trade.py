@@ -53,10 +53,13 @@ class Trade:
                 else:
                     return -1
         return -1
+
     def amountOnSell(bitcloutLockedNanos, coinsInCirculation, balanceNanos):
-        beforeFees = bitcloutLockedNanos * (1 - pow( (1-balanceNanos/coinsInCirculation), (1 / 0.3333333)))
-        return ((beforeFees * (100*100 -1)) / (100*100))
-        
+        beforeFees = bitcloutLockedNanos * (
+            1 - pow((1 - balanceNanos / coinsInCirculation), (1 / 0.3333333))
+        )
+        return (beforeFees * (100 * 100 - 1)) / (100 * 100)
+
     def sell(self, keyToSell, coinsToSellNanos=0, sellMax=False):
         coinsToSell = coinsToSellNanos
         if sellMax == True:
@@ -80,9 +83,7 @@ class Trade:
             "MinFeeRateNanosPerKB": 1000,
         }
         endpointURL = ROUTE + "buy-or-sell-creator-coin"
-        res = requests.post(
-            endpointURL, json=payload
-        )
+        res = requests.post(endpointURL, json=payload)
         transactionHex = res.json()["TransactionHex"]
         signedTransactionHex = Sign_Transaction(
             self.SEED_HEX, transactionHex

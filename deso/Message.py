@@ -9,11 +9,14 @@ class Message:
         self.PUBLIC_KEY = publicKey
 
     def send(self, recipient, messageText):
-        header = {
-            "content-type": "application/json"
-        }
+        header = {"content-type": "application/json"}
 
-        payload = {"SenderPublicKeyBase58Check":self.PUBLIC_KEY,"RecipientPublicKeyBase58Check":recipient,"MessageText":messageText,"MinFeeRateNanosPerKB":1000}
+        payload = {
+            "SenderPublicKeyBase58Check": self.PUBLIC_KEY,
+            "RecipientPublicKeyBase58Check": recipient,
+            "MessageText": messageText,
+            "MinFeeRateNanosPerKB": 1000,
+        }
         ROUTE = getRoute()
         endpointURL = ROUTE + "send-message-stateless"
         res = requests.post(endpointURL, json=payload, headers=header)
