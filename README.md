@@ -1,46 +1,72 @@
 # DeSo.py
 
-A python package for DeSo.
+Python package for DeSo. Fetch information from the DeSo blockchain using Bitclout APIs.
+
+## 🚀 Installing
+
+**Python 3.7 or above is required!**
+
+```sh
+# Windows
+py -3 -m pip install -U deso
+
+# Linux or MacOS
+python3 -m pip install -U deso
+
+# Install the nightly build
+python3 -m pip install -U git+https://github.com/AdityaChaudhary0005/DeSo.py
+```
 
 Developed by [ItsAditya](https://bitclout.com/u/itsaditya)
 
-Run `pip install deso` to install the module!
-
-## Examples of How To Use DeSo.py
+## Usage
 
 ### Getting $DeSo price
 
 ```python
-import deso
-print(deso.Deso.getDeSoPrice())
+from deso import Deso
+
+des = Deso()
+print(des.get_deso_price())
 ```
 
 ### Getting user(s) info through publicKey(s)
 
 ```python
-import deso
 import json
+from deso import Users
+
+users = Users()
+pub_keys = ["BC1YLjJVhcVAi5UCYZ2aTNwRMtqvzQar4zbymr7fyinu8MsWLx2A1g1"]
+
 with open("userInfo.json", "w") as file:
-    listOfPublicKeys = ["BC1YLjJVhcVAi5UCYZ2aTNwRMtqvzQar4zbymr7fyinu8MsWLx2A1g1"] # you can pass multiple public key of users
-    json.dump(deso.Users.getUserStateless(listOfPublicKeys), file)
+    json.dump(users.get_user_stateless(pub_keys), file)
 ```
 
 ### Getting user info through DeSo username
 
 ```python
-import deso
 import json
+from deso import Users
+
+users = Users()
+username = "ItsAditya"
+
 with open("userInfo.json", "w") as file:
-    username = "ItsAditya"
-    json.dump(deso.Users.getSingleProfile(username=username), file) #you can also pass publicKey = "<public key of any user>" here instead of username just in case you want to get the profile info from public key
+    # You can also pass publicKey = "<public key of any user>" here instead of username 
+    # just in case you want to get the profile info from public key.
+    json.dump(users.get_single_profile(username=username), file)
 ```
 
 ### Getting profile pic through public key
 
 ```python
-import deso
-publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" # well, that's my (@ItsAditya) public key :)
-print(deso.Users.getProfilePic(publicKey))
+from deso import Users
+
+publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" # That's my (@ItsAditya) public key.
+users = Users()
+
+print(users.get_profile_pic(public_key))
 ```
 
 ### Getting wallet of a user through public key
@@ -288,8 +314,15 @@ with open("test.json", "w") as file:
 
 ```
 
-More docs coming soon!
+## Show your support
 
-Found any issue ? Report us on our [repo](https://github.com/AdityaChaudhary0005/DeSo.py)
+Be sure to leave a ⭐️ if you like the project! You can tip the authors $DESO here. Even a single diamond counts!
 
-Tip the author of this module some $DeSo at: [@ItsAditya](https://bitclout.com/u/ItsAditya) (even 1 diamond counts :)
+- [@ItsAditya](https://diamondapp.com/u/ItsAditya)
+- [@JanaSunriseX](https://diamondapp.com/u/JanaSunriseX)
+
+## ▶ Links
+
+- [Raise an Issue](https://github.com/AdityaChaudhary0005/DeSo.py/issues)
+- [Discussions](https://github.com/AdityaChaudhary0005/DeSo.py/discussions)
+- [API Documentation](https://docs.bitclout.com/devs/backend-api)
