@@ -2,6 +2,10 @@ from .deso import Deso
 from .diamonds import Diamonds
 from .message import Message
 from .nft import NFT
+from .post import Post
+from .posts import Posts
+from .trade import Trade
+from .users import Users
 
 # Library conf
 __author__ = "Aditya Chaudhary"
