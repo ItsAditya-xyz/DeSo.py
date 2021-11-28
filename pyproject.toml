@@ -23,7 +23,7 @@ classifiers=[
 include = ["LICENSE"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 requests = "^2.26.0"
 ecdsa = "^0.17.0"
 PyJWT = "^2.3.0"
