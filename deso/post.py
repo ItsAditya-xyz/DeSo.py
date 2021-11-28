@@ -2,7 +2,7 @@ import binascii
 
 from .base import BaseClient
 from .endpoints import ENDPOINTS
-from .Sign import Sign_Transaction
+from .sign import sign_transaction
 
 import jwt
 from ecdsa import SigningKey, SECP256k1
@@ -63,7 +63,7 @@ class Post(BaseClient):
         ]
 
         # Sign transaction
-        signed_transaction_hex = Sign_Transaction(self.seed_hex, transaction_hex)
+        signed_transaction_hex = sign_transaction(self.seed_hex, transaction_hex)
 
         # Submit transaction
         submit_payload = {"TransactionHex": signed_transaction_hex}
@@ -98,12 +98,10 @@ class Post(BaseClient):
 
         # Route
         route = ENDPOINTS["create-nft"]
-        transaction_hex = self.fetch_api(route, body=payload)[
-            "TransactionHex"
-        ]
+        transaction_hex = self.fetch_api(route, body=payload)["TransactionHex"]
 
         # Sign transaction
-        signed_transaction_hex = Sign_Transaction(self.seed_hex, transaction_hex)
+        signed_transaction_hex = sign_transaction(self.seed_hex, transaction_hex)
 
         # Submit transaction
         submit_payload = {"TransactionHex": signed_transaction_hex}

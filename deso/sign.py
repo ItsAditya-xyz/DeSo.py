@@ -104,20 +104,28 @@ def hexify(n):
     return n
 
 
-def Sign_Transaction(seedHex, TransactionHex):
+def sign_transaction(seed_hex, transaction_hex):
+    # Sha 256 digest
     s256 = hashlib.sha256(
-        hashlib.sha256(bytes.fromhex(TransactionHex)).digest()
+        hashlib.sha256(bytes.fromhex(transaction_hex)).digest()
     ).digest()
-    drbg = hmac_drbg(entropy=bytes.fromhex(seedHex), string=s256)
+
+    # Use HMAC for drgb
+    drbg = hmac_drbg(entropy=bytes.fromhex(seed_hex), string=s256)
+
     k = int.from_bytes(drbg, "big")
     kp = scalar_mult(k, g)
     kpX = kp[0]
     r = kpX % n
-    s = pow(k, -1, n) * (r * int(seedHex, 16) + int(s256.hex(), 16))
+    s = pow(k, -1, n) * (r * int(seed_hex, 16) + int(s256.hex(), 16))
     s = s % n
+
+    # Create the sign using DER
     signature = to_DER(hexify(r), hexify(s))
+
+    # Generate signed transaction
     signed_transaction = (
-        TransactionHex[:-2] + hex(len(bytearray.fromhex(signature)))[2:] + signature
+        transaction_hex[:-2] + hex(len(bytearray.fromhex(signature)))[2:] + signature
     )
 
     return signed_transaction

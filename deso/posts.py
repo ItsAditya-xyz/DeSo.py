@@ -9,13 +9,13 @@ class Posts(BaseClient):
         super().__init__(public_key, seed_hex)
 
     def get_user_posts(
-            self,
-            username="",
-            public_key="",
-            num_to_fetch=10,
-            media_required=False,
-            last_post_hash="",
-            reader_public_key="BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB",
+        self,
+        username="",
+        public_key="",
+        num_to_fetch=10,
+        media_required=False,
+        last_post_hash="",
+        reader_public_key="BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB",
     ):
         payload = {
             "PublicKeyBase58Check": public_key,
@@ -33,13 +33,13 @@ class Posts(BaseClient):
         return json
 
     def get_post_info(
-            self,
-            post_hash,
-            comment_limit=20,
-            fetch_parents=False,
-            comment_offset=0,
-            add_global_feed_bool=False,
-            reader_public_key="BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB",
+        self,
+        post_hash,
+        comment_limit=20,
+        fetch_parents=False,
+        comment_offset=0,
+        add_global_feed_bool=False,
+        reader_public_key="BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB",
     ):
         payload = {
             "PostHashHex": post_hash,

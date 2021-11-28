@@ -1,7 +1,6 @@
 import requests
-import json
 from deso.Route import getRoute
-from deso.Sign import Sign_Transaction
+from deso.sign import sign_transaction
 
 
 class Trade:
@@ -28,7 +27,7 @@ class Trade:
         res = requests.post(endpointURL, json=payload)
         transactionHex = res.json()["TransactionHex"]
 
-        signedTransactionHex = Sign_Transaction(
+        signedTransactionHex = sign_transaction(
             self.SEED_HEX, transactionHex
         )  # txn signature
 
@@ -85,7 +84,7 @@ class Trade:
         endpointURL = ROUTE + "buy-or-sell-creator-coin"
         res = requests.post(endpointURL, json=payload)
         transactionHex = res.json()["TransactionHex"]
-        signedTransactionHex = Sign_Transaction(
+        signedTransactionHex = sign_transaction(
             self.SEED_HEX, transactionHex
         )  # txn signature
 

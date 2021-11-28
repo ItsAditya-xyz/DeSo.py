@@ -1,6 +1,6 @@
 from .base import BaseClient
 from .endpoints import ENDPOINTS
-from .Sign import Sign_Transaction
+from .sign import sign_transaction
 
 
 class Message(BaseClient):
@@ -26,7 +26,7 @@ class Message(BaseClient):
         ]
 
         # Sign transaction
-        signed_transaction_hex = Sign_Transaction(self.seed_hex, transaction_hex)
+        signed_transaction_hex = sign_transaction(self.seed_hex, transaction_hex)
 
         # Submit transaction
         route = ENDPOINTS["submit-transaction"]
