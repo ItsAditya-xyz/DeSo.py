@@ -23,7 +23,7 @@ class BaseClient:
         }
 
     # Define the fetch method
-    def fetch_api(self, route: Route, headers: dict = None, body: dict = None) -> dict:
+    def fetch_api(self, route: Route, headers: dict = None, body: dict = None, files=None, text: bool = False) -> dict:
         # If headers are provided, add them
         if headers:
             self.headers.update(headers)
@@ -34,7 +34,7 @@ class BaseClient:
 
         # Core fetch logic
         with requests.request(
-            route.method, route.url, headers=self.headers, data=body
+            route.method, route.full_path(), headers=self.headers, data=body, files=files,
         ) as response:
             # Handle errors separately
             if response.status_code == 404:
@@ -53,4 +53,7 @@ class BaseClient:
                 raise ValueError("405, Method Not Allowed")
 
             # Return the response JSON
+            if text:
+                return response.status_code, response.text
+
             return response.status_code, response.json()
