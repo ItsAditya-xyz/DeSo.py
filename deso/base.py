@@ -23,7 +23,14 @@ class BaseClient:
         }
 
     # Define the fetch method
-    def fetch_api(self, route: Route, headers: dict = None, body: dict = None, files=None, text: bool = False) -> dict:
+    def fetch_api(
+        self,
+        route: Route,
+        headers: dict = None,
+        body: dict = None,
+        files=None,
+        text: bool = False,
+    ) -> dict:
         # If headers are provided, add them
         if headers:
             self.headers.update(headers)
@@ -34,7 +41,11 @@ class BaseClient:
 
         # Core fetch logic
         with requests.request(
-            route.method, route.full_path(), headers=self.headers, data=body, files=files,
+            route.method,
+            route.full_path(),
+            headers=self.headers,
+            data=body,
+            files=files,
         ) as response:
             # Handle errors separately
             if response.status_code == 404:

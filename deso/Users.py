@@ -17,8 +17,7 @@ class Users:
         return response.json()
 
     def getSingleProfile(
-        publicKey="",
-        username="",
+        publicKey="", username="",
     ):
         payload = {"PublicKeyBase58Check": publicKey, "Username": username}
         route = getRoute()
@@ -112,13 +111,15 @@ class Users:
         endpointURL = route + "get-notifications"
         response = requests.post(endpointURL, json=payload)
         return response.json()
-    
-    def getNFTs(userPublicKey, readerPublicKey = "", isForSale = False):
-        '''Gets the NFTs associated with a user,
-            setting isForSale = True returns only the NFTs that are for sale.'''
-        payload = {"UserPublicKeyBase58Check": userPublicKey,
-                   "ReaderPublicKeyBase58Check": readerPublicKey,
-                   "IsForSale": isForSale}
+
+    def getNFTs(userPublicKey, readerPublicKey="", isForSale=False):
+        """Gets the NFTs associated with a user,
+            setting isForSale = True returns only the NFTs that are for sale."""
+        payload = {
+            "UserPublicKeyBase58Check": userPublicKey,
+            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "IsForSale": isForSale,
+        }
         route = getRoute()
         endpointURL = route + "get-nfts-for-user"
         response = requests.post(endpointURL, json=payload)
