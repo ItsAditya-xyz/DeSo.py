@@ -1,46 +1,72 @@
 # DeSo.py
 
-A python package for DeSo.
+Python package for DeSo. Fetch information from the DeSo blockchain using Bitclout APIs.
+
+## 🚀 Installing
+
+**Python 3.7 or above is required!**
+
+```sh
+# Windows
+py -3 -m pip install -U deso
+
+# Linux or MacOS
+python3 -m pip install -U deso
+
+# Install the nightly build
+python3 -m pip install -U git+https://github.com/AdityaChaudhary0005/DeSo.py
+```
 
 Developed by [ItsAditya](https://bitclout.com/u/itsaditya)
 
-Run `pip install deso` to install the module!
-
-## Examples of How To Use DeSo.py
+## Usage
 
 ### Getting $DeSo price
 
 ```python
-import deso
-print(deso.Deso.getDeSoPrice())
+from deso import Deso
+
+des = Deso()
+print(des.get_deso_price())
 ```
 
 ### Getting user(s) info through publicKey(s)
 
 ```python
-import deso
 import json
+from deso import Users
+
+users = Users()
+pub_keys = ["BC1YLjJVhcVAi5UCYZ2aTNwRMtqvzQar4zbymr7fyinu8MsWLx2A1g1"]
+
 with open("userInfo.json", "w") as file:
-    listOfPublicKeys = ["BC1YLjJVhcVAi5UCYZ2aTNwRMtqvzQar4zbymr7fyinu8MsWLx2A1g1"] # you can pass multiple public key of users
-    json.dump(deso.Users.getUserStateless(listOfPublicKeys), file)
+    json.dump(users.get_user_stateless(pub_keys), file)
 ```
 
 ### Getting user info through DeSo username
 
 ```python
-import deso
 import json
+from deso import Users
+
+users = Users()
+username = "ItsAditya"
+
 with open("userInfo.json", "w") as file:
-    username = "ItsAditya" 
-    json.dump(deso.Users.getSingleProfile(username=username), file) #you can also pass publicKey = "<public key of any user>" here instead of username just in case you want to get the profile info from public key
+    # You can also pass publicKey = "<public key of any user>" here instead of username 
+    # just in case you want to get the profile info from public key.
+    json.dump(users.get_single_profile(username=username), file)
 ```
 
 ### Getting profile pic through public key
 
 ```python
-import deso
-publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" # well, that's my (@ItsAditya) public key :)
-print(deso.Users.getProfilePic(publicKey))
+from deso import Users
+
+publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" # That's my (@ItsAditya) public key.
+users = Users()
+
+print(users.get_profile_pic(public_key))
 ```
 
 ### Getting wallet of a user through public key
@@ -48,7 +74,7 @@ print(deso.Users.getProfilePic(publicKey))
 ```python
 import deso
 import json
-publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" 
+publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 with open("wallet.json", "w") as file:
     walletData = deso.Users.getWallet(publicKey, includeCreatorCoin = True) # make includeCreatorCoin as false when you don't want to have creator coin investment in the response data
     json.dump(walletData, file)
@@ -57,13 +83,13 @@ with open("wallet.json", "w") as file:
 ### getting creator coin holders of a user
 
 ```python
-import deso 
+import deso
 import json
 publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 with open("investors.json", "w") as file:
     investorData = deso.Users.getHodlers( username =  "", publicKey= publicKey, lastPublicKey= "", numToFetch = 100, fetchAll = False)
     # well, you can play around with above list of args to get what you want :)
-    json.dump(investorData, file) 
+    json.dump(investorData, file)
 ```
 
 ### Getting users who are blocked by a profile
@@ -117,11 +143,10 @@ import deso
 import json
 
 #public Key of @DiamondHands
-publicKey = "BC1YLgU67opDhT9bTPsqvue9QmyJLDHRZrSj77cF3P4yYDndmad9Wmx" 
+publicKey = "BC1YLgU67opDhT9bTPsqvue9QmyJLDHRZrSj77cF3P4yYDndmad9Wmx"
 with open("HiddenPosts.json", "w") as file:
     json.dump(deso.Posts.getHiddenPosts(publicKey), file)
 ```
-
 
 ### Buying creator coin of a user
 
@@ -137,7 +162,7 @@ SEEDHEX = "" # you seedHex
 PUBLIC_KEY = "" #you PublicKey
 
 
-PublicKeyToBuy = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" 
+PublicKeyToBuy = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 trade = Trade(SEEDHEX, PUBLIC_KEY)
 status = trade.buy(keyToBuy = PublicKeyToBuy, DeSo = 0.1) # you are buying 0.1 DeSO of the creator's coin
 print(status)  #200 if transaction was succesfull
@@ -157,7 +182,7 @@ SEEDHEX = "" # you seedHex
 PUBLIC_KEY = "" #you PublicKey
 
 
-publicKeyToSell = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg" 
+publicKeyToSell = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 trade = Trade(SEEDHEX, PUBLIC_KEY)
 status = trade.sell(keyToSell = publicKeyToSell, sellMax = True)# you are selling max coins of the creator
 print(status)  #200 if transaction was succesfull
@@ -183,6 +208,7 @@ print(status)  # 200 if post was successfull
 ```
 
 ### Uploading image on images.bitclout.com
+
 ```python
 from deso import Post
 
@@ -201,7 +227,9 @@ imageFileList=[
 urlResponse = post.uploadImage(imageFileList)
 print(urlResponse) # sample response: {"ImageURL":"https://images.bitclout.com/654c5d57a6f61b053290e232daa8242b7b3f156df20dacac0d20c6b00e0aeb18.webp"}
 ```
+
 ### Posting image on arweave
+
 ```python
 import deso
 #arweave.json is the JSON file of you arweave wallet. Get one at ardrive.io
@@ -213,6 +241,7 @@ print(arweaveURL) # returns arweave image URL
 ```
 
 ### Minting NFT on deso
+
 ```python
 
 import deso
@@ -236,6 +265,7 @@ else:
 ```
 
 ### Sending direct message on DeSo
+
 ```python
 from deso import Message
 import json
@@ -250,6 +280,7 @@ print(status)  # 200 if post was successfulld
 ```
 
 ### Getting NFT entries for NFT postHash
+
 ```python
 from deso import Nft
 import json
@@ -257,8 +288,10 @@ postHashHex = "d017e4a6f9a7975777f6a4f5b55074590013f362344b8928d1a1a6fcdbe10aca"
 with open("NftPostInfo.json", "w") as file:
      niftyInfo = deso.Nft.getNFT(postHashHex)
      json.dump(niftyInfo, file)
-```    
-### Getting (recent) Transaction info of public key 
+```
+
+### Getting (recent) Transaction info of public key
+
 ```python
 import deso
 import json
@@ -269,6 +302,7 @@ with open("test.json", "w") as file:
 ```
 
 ### Getting Notifications of user through public Key
+
 ```python
 import deso
 import json
@@ -280,8 +314,15 @@ with open("test.json", "w") as file:
 
 ```
 
-More docs coming soon!
+## Show your support
 
-Found any issue ? Report us on our [repo](https://github.com/AdityaChaudhary0005/DeSo.py)
+Be sure to leave a ⭐️ if you like the project! You can tip the authors $DESO here. Even a single diamond counts!
 
-Tip the author of this module some $DeSo at: [@ItsAditya](https://bitclout.com/u/ItsAditya) (even 1 diamond counts :)
+- [@ItsAditya](https://diamondapp.com/u/ItsAditya)
+- [@JanaSunriseX](https://diamondapp.com/u/JanaSunriseX)
+
+## ▶ Links
+
+- [Raise an Issue](https://github.com/AdityaChaudhary0005/DeSo.py/issues)
+- [Discussions](https://github.com/AdityaChaudhary0005/DeSo.py/discussions)
+- [API Documentation](https://docs.bitclout.com/devs/backend-api)

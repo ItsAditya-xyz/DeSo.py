@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "deso"
+version = "0.1.3"
+
+# Project info
+description = "Python module for deso. Fetch information from the DeSo blockchain using Bitclout APIs."
+authors = ["Aditya Chaudhary <chaudharyaditya0005@gmail.com>", "Sunrit Jana <warriordefenderz@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+# Repository
+homepage = "https://github.com/AdityaChaudhary0005/DeSo.py"
+repository = "https://github.com/AdityaChaudhary0005/DeSo.py"
+keywords=['deso' ,'python', 'bitclout', 'social media', 'crypto', 'blockchain', 'decentralisation']
+classifiers=[
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+]
+include = ["LICENSE"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.26.0"
+ecdsa = "^0.17.0"
+PyJWT = "^2.3.0"
+arweave-python-client = "^1.0.14"
+
+[tool.poetry.dev-dependencies]
+black = "^21.11b1"
+twine = "^3.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
