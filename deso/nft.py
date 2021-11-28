@@ -9,8 +9,8 @@ from .endpoints import ENDPOINTS
 
 
 class NFT(BaseClient):
-    def __init__(self, public_key, seed_hex) -> None:
-        super().__init__(public_key, seed_hex)
+    def __init__(self) -> None:
+        super().__init__("", "")
 
     def get_nft(self, post_hash_hex):
         # Route
