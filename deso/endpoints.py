@@ -34,11 +34,13 @@ ENDPOINTS = {
     # NFT
     "create-nft": Route("POST", "create-nft"),
     "get-nft-entries": Route("POST", "get-nft-entries-for-nft-post"),
+    "get-nfts-for-user": Route("POST", "get-nfts-for-user"),
     # Transaction
     "submit-transaction": Route("POST", "submit-transaction"),
     # Users
     "get-users-stateless": Route("POST", "get-users-stateless"),
     "get-single-profile": Route("POST", "get-single-profile"),
+    "get-single-profiles": Route("POST", "get-single-profiles"),
     # Hodlers
     "get-hodlers-for-public-key": Route("POST", "get-hodlers-for-public-key"),
     # Notifs
