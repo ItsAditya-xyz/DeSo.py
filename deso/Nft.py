@@ -1,6 +1,8 @@
 import requests
 import json
-from deso.Route import getRoute
+
+from requests.models import Response
+from deso.Route import ROUTE, getRoute
 from arweave.arweave_lib import Wallet, Transaction
 from arweave.transaction_uploader import get_uploader
 import arweave
@@ -41,4 +43,66 @@ class Nft:
                 transaction_id[1:] + '.arweave.net/' + image_id
             return build_url
 
-  
+    def getAllNFTs(self, publicKey: str, on_sale: bool = True, pending: bool = False):
+        payload = {
+            "UserPublicKeyBase58Check": publicKey,
+            "ReaderPublicKeyBase58Check": self.PUBLIC_KEY,
+            "IsForSale": on_sale,
+            "IsPending": pending
+        }
+        endpointURL = ROUTE() + "get-nfts-for-user"
+        response = requests.post(endpointURL, json=payload)
+        if response.status_code == 200:
+            return response.json()["NFTsMap"]
+        else:
+            return response.json()
+
+    def updateNFT(self, postHashHex: str, min_bid_deso: int = 1, for_sale: bool = True, serial_number: int = 1):
+        header = {"content-type": "application/json"}
+        payload = {
+            "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+            "NFTPostHashHex": postHashHex,
+            "SerialNumber": serial_number,
+            "IsForSale": for_sale,
+            "MinBidAmountNanos": min_bid_deso//1000000000,  # convert DESO to NANOS
+            "MinFeeRateNanosPerKB": 1000
+        }
+
+        endpointURL = ROUTE() + "update-nft"
+        response = requests.post(endpointURL, json=payload, headers=header)
+        if response.status_code == 200:
+            transactionHex = response.json()["TransactionHex"]
+            signedTransactionHex = Sign_Transaction(
+                self.SEEDHEX, transactionHex)
+            submitPayload = {"TransactionHex": signedTransactionHex}
+            submitResponse = requests.post(
+                ROUTE()+"submit-transaction", json=submitPayload)
+
+            return submitResponse.json()
+        else:
+            return response.json()
+
+    def burnNFT(self, postHashHex, serial_number: int = 1):
+        # ONLY NFTS THAT ARE NOT ON SALE CAN BE BURNED
+        header = {"content-type": "application/json"}
+        payload = {
+            "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+            "NFTPostHashHex": postHashHex,
+            "SerialNumber": serial_number,
+            "MinFeeRateNanosPerKB": 1000
+        }
+
+        endpointURL = ROUTE()+"burn-nft"
+        response = requests.post(endpointURL, json=payload, headers=header)
+
+        if response.status_code == 200:
+            transactionHex = response.json()["TransactionHex"]
+            signedTransactionHex = Sign_Transaction(
+                self.SEEDHEX, transactionHex)
+            submitPayload = {"TransactionHex": signedTransactionHex}
+            submitResponse = requests.post(
+                ROUTE()+"submit-transaction", json=submitPayload)
+
+            return submitResponse.json()
+        else:
+            return response.json()
