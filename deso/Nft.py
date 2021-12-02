@@ -43,20 +43,6 @@ class Nft:
                 transaction_id[1:] + '.arweave.net/' + image_id
             return build_url
 
-    def getAllNFTs(self, publicKey: str, on_sale: bool = True, pending: bool = False):
-        payload = {
-            "UserPublicKeyBase58Check": publicKey,
-            "ReaderPublicKeyBase58Check": self.PUBLIC_KEY,
-            "IsForSale": on_sale,
-            "IsPending": pending
-        }
-        endpointURL = ROUTE() + "get-nfts-for-user"
-        response = requests.post(endpointURL, json=payload)
-        if response.status_code == 200:
-            return response.json()["NFTsMap"]
-        else:
-            return response.json()
-
     def updateNFT(self, postHashHex: str, min_bid_deso: int = 1, for_sale: bool = True, serial_number: int = 1):
         header = {"content-type": "application/json"}
         payload = {
