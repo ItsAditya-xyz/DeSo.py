@@ -23,7 +23,7 @@ class Post:
         payload = {'UserPublicKeyBase58Check': self.PUBLIC_KEY,
                    'JWT': encoded_jwt}
         response = requests.request("POST", endpointURL, data=payload, files=fileList)
-        return response.text
+        return response.json()
 
 
     def send(self, content, imageUrl=[], postExtraData={}):
