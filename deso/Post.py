@@ -1,5 +1,5 @@
 import requests
-from deso.Route import ROUTE, getRoute
+from deso.Route import getRoute
 from deso.Sign import Sign_Transaction
 import binascii
 from ecdsa import SigningKey, SECP256k1
