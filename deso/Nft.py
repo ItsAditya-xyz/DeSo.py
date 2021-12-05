@@ -50,7 +50,7 @@ class Nft:
             "NFTPostHashHex": postHashHex,
             "SerialNumber": serial_number,
             "IsForSale": for_sale,
-            "MinBidAmountNanos": min_bid_deso//1000000000,  # convert DESO to NANOS
+            "MinBidAmountNanos": min_bid_deso//1e9,  # convert DESO to NANOS
             "MinFeeRateNanosPerKB": 1000
         }
 
