@@ -7,6 +7,7 @@ from ecdsa.ecdsa import Public_key
 import jwt
 
 
+
 class Post:
     def __init__(self, seedHex, publicKey):
         self.SEED_HEX = seedHex
