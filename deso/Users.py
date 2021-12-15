@@ -105,3 +105,8 @@ class Users:
         endpointURL = route + "get-nfts-for-user"
         response = requests.post(endpointURL, json=payload)
         return response.json()
+    
+    def getDerivedKeys(publicKey):
+        payload = {"PublicKeyBase58Check": publicKey}
+        res = requests.post("https://bitclout.com/api/v0/get-user-derived-keys", json = payload)
+        return res.json()

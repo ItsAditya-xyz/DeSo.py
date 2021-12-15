@@ -30,20 +30,21 @@ class Deso:
         amount_usd_in_nano = amount_usd_in_deso*(10**9)
         return amount_usd_in_nano
 
-    def basicTransfer(self, recipientPublicKey, amountUSD):
+    def basicTransfer(self, recipientPublicKey, amountDeSo):
         endpoint = getRoute() + "send-deso"
         payload = {
             "SenderPublicKeyBase58Check": self.PUBLIC_KEY,
             "RecipientPublicKeyOrUsername": recipientPublicKey,
-            "AmountNanos": int(self.usdToNanos(amountUSD)),
+            "AmountNanos": int(round(amountDeSo * 1e9)),
             "MinFeeRateNanosPerKB": 1000
         }
 
         if self.DERIVED_KEY:
             # below this transaction fails
-            payload["MinFeeRateNanosPerKB"] = 1250
+            payload["MinFeeRateNanosPerKB"] = 12500
 
         res = requests.post(endpoint, json=payload)
+        print(res.json())
         TransactionHex = res.json()["TransactionHex"]
 
         if self.DERIVED_KEY:
