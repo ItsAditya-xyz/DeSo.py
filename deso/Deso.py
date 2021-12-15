@@ -44,7 +44,6 @@ class Deso:
             payload["MinFeeRateNanosPerKB"] = 12500
 
         res = requests.post(endpoint, json=payload)
-        print(res.json())
         TransactionHex = res.json()["TransactionHex"]
 
         if self.DERIVED_KEY:
