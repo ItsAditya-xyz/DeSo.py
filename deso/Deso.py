@@ -9,7 +9,7 @@ class Deso:
     def __init__(self):
         pass
 
-    def __init__(self, PUBLIC_KEY, SEEDHEX, DERIVED_KEY=None):
+    def __init__(self, PUBLIC_KEY=None, SEEDHEX=None, DERIVED_KEY=None):
         self.PUBLIC_KEY = PUBLIC_KEY
         self.SEEDHEX = SEEDHEX
         self.DERIVED_KEY = DERIVED_KEY
@@ -58,5 +58,5 @@ class Deso:
         payload = {"TransactionHex": SignedTransactionHex}
         endpoint = getRoute() + "submit-transaction"
         res = requests.post(endpoint, json=payload)
-        print(res.json())
+        # print(res.json())
         return {"status": res.status_code}
