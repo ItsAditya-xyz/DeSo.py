@@ -6,9 +6,6 @@ import base58
 
 
 class Deso:
-    def __init__(self):
-        pass
-
     def __init__(self, PUBLIC_KEY=None, SEEDHEX=None, DERIVED_KEY=None):
         self.PUBLIC_KEY = PUBLIC_KEY
         self.SEEDHEX = SEEDHEX
@@ -40,8 +37,8 @@ class Deso:
         }
 
         if self.DERIVED_KEY:
-            # below this transaction fails
-            payload["MinFeeRateNanosPerKB"] = 12500
+            # below this transaction failed
+            payload["MinFeeRateNanosPerKB"] = 1250
 
         res = requests.post(endpoint, json=payload)
         TransactionHex = res.json()["TransactionHex"]
