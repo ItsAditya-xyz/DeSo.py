@@ -14,6 +14,7 @@ class Post:
         self.SEED_HEX = seedHex
         self.PUBLIC_KEY = publicKey
         self.MIN_FEE = 1000
+        self.DERIVED_KEY = None
 
     def useDerivedKey(self, publicKey, derivedKey, derivedSeedHex):
         self.PUBLIC_KEY = publicKey
