@@ -3,6 +3,7 @@ import json
 import requests
 from deso.Sign import Sign_Transaction
 import base58
+from deso.Derived import addExtraDataDict
 
 
 class Deso:
@@ -27,7 +28,7 @@ class Deso:
         amount_usd_in_nano = amount_usd_in_deso*(10**9)
         return amount_usd_in_nano
 
-    def basicTransfer(self, recipientPublicKey, amountDeSo):
+    def basicTransfer(self, recipientPublicKey, amountDeSo, extraData: dict = {}):
         endpoint = getRoute() + "send-deso"
         payload = {
             "SenderPublicKeyBase58Check": self.PUBLIC_KEY,
@@ -38,18 +39,16 @@ class Deso:
 
         if self.DERIVED_KEY:
             # below this transaction failed
-            payload["MinFeeRateNanosPerKB"] = 1250
+            payload["MinFeeRateNanosPerKB"] = 1500
 
         res = requests.post(endpoint, json=payload)
         TransactionHex = res.json()["TransactionHex"]
 
         if self.DERIVED_KEY:
             compressed_key = base58.b58decode_check(self.DERIVED_KEY)[3:].hex()
-            payload = {"TransactionHex": TransactionHex,
-                       "ExtraData": {"DerivedPublicKey": compressed_key}}
-            endpoint = getRoute() + "append-extra-data"
-            res = requests.post(endpoint, json=payload)
-            TransactionHex = res.json()["TransactionHex"]
+            extraData["DerivedPublicKey"] = compressed_key
+        if not extraData == {}:
+            TransactionHex = addExtraDataDict(TransactionHex, extraData)
 
         SignedTransactionHex = Sign_Transaction(self.SEEDHEX, TransactionHex)
         payload = {"TransactionHex": SignedTransactionHex}
