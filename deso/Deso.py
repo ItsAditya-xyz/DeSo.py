@@ -34,12 +34,8 @@ class Deso:
             "SenderPublicKeyBase58Check": self.PUBLIC_KEY,
             "RecipientPublicKeyOrUsername": recipientPublicKey,
             "AmountNanos": int(round(amountDeSo * 1e9)),
-            "MinFeeRateNanosPerKB": 1000
+            "MinFeeRateNanosPerKB": 1650
         }
-
-        if self.DERIVED_KEY:
-            # below this transaction failed
-            payload["MinFeeRateNanosPerKB"] = 1500
 
         res = requests.post(endpoint, json=payload)
         TransactionHex = res.json()["TransactionHex"]
@@ -47,6 +43,7 @@ class Deso:
         if self.DERIVED_KEY:
             compressed_key = base58.b58decode_check(self.DERIVED_KEY)[3:].hex()
             extraData["DerivedPublicKey"] = compressed_key
+
         if not extraData == {}:
             TransactionHex = addExtraDataDict(TransactionHex, extraData)
 
@@ -54,5 +51,5 @@ class Deso:
         payload = {"TransactionHex": SignedTransactionHex}
         endpoint = getRoute() + "submit-transaction"
         res = requests.post(endpoint, json=payload)
-        # print(res.json())
+        print(res.json())
         return {"status": res.status_code}
