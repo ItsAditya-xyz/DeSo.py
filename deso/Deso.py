@@ -51,5 +51,5 @@ class Deso:
         payload = {"TransactionHex": SignedTransactionHex}
         endpoint = getRoute() + "submit-transaction"
         res = requests.post(endpoint, json=payload)
-        print(res.json())
+        #print(res.json())
         return {"status": res.status_code}
