@@ -80,22 +80,26 @@ class Users:
     def getTransactionInfo(publicKey, limit=200, lastTransactionIDBase58Check="", lastPublicKeyTransactionIndex=-1):
         payload = {"PublicKeyBase58Check": publicKey,
                    "LastTransactionIDBase58Check": lastTransactionIDBase58Check,
-                 "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex, "Limit": limit}
+                   "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex, "Limit": limit}
         endpointURL = "https://api.bitclout.com/api/v1/transaction-info"
         response = requests.post(endpointURL, json=payload)
         return response.json()
 
-
-    def getNotifications(publicKey, startIndex = -1, numToFetch = 50):
+    def getNotifications(publicKey, startIndex=-1, numToFetch=50, filterOutNotificationCategories={}):
+        #filterOutNotification is a map that looks like {"diamond": True, "like": True,  "transfer": True, "follow": True, "nft": True, "post": True}
+        # ever True means that the specific notification category will be filtered out
         payload = {"PublicKeyBase58Check": publicKey,
-                   "FetchStartIndex": startIndex,
-                   "NumToFetch": numToFetch}
+                "FetchStartIndex": startIndex,
+                "NumToFetch": numToFetch,
+                "FilteredOutNotificationCategories": filterOutNotificationCategories}
         route = getRoute()
-        endpointURL = route + "get-notifications"
+        endpointURL = "https://diamondapp.com/api/v0/get-notifications"
         response = requests.post(endpointURL, json=payload)
         return response.json()
-    
-    def getNFTs(userPublicKey, readerPublicKey = "", isForSale = False):
+
+ 
+
+    def getNFTs(userPublicKey, readerPublicKey="", isForSale=False):
         '''Gets the NFTs associated with a user,
             setting isForSale = True returns only the NFTs that are for sale.'''
         payload = {"UserPublicKeyBase58Check": userPublicKey,
@@ -105,8 +109,9 @@ class Users:
         endpointURL = route + "get-nfts-for-user"
         response = requests.post(endpointURL, json=payload)
         return response.json()
-    
+
     def getDerivedKeys(publicKey):
         payload = {"PublicKeyBase58Check": publicKey}
-        res = requests.post("https://bitclout.com/api/v0/get-user-derived-keys", json = payload)
+        res = requests.post(
+            "https://bitclout.com/api/v0/get-user-derived-keys", json=payload)
         return res.json()
