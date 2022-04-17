@@ -246,9 +246,20 @@ msg = Message(SEEDHEX, PUBLIC_KEY)
 text = "This is a direct message made using DeSo.py"
 recipientKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 status = msg.send(recipientKey, text)
-print(status)  # 200 if post was successfulld
+print(status)  # 200 if msg was successfulld
 ```
 
+### Following/Unfollowing user on DeSo
+```python
+from deso import Social
+import json
+SEEDHEX = "" # your seed hex
+PUBLIC_KEY = "" # your public key
+social = Social(SEEDHEX, PUBLIC_KEY)
+userToFollow = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
+status = social.follow(userToFollow) #you can set isUnfollow = True, if you want to unfollow
+print(status) # 200 if follow was succesful
+```
 ### Getting NFT entries for NFT postHash
 ```python
 from deso import Nft

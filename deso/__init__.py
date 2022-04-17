@@ -6,3 +6,4 @@ from deso.Trade import Trade
 from deso.Post import Post
 from deso.Message import Message
 from deso.Nft import Nft
+from deso.Social import Social
