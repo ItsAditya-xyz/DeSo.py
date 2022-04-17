@@ -2,6 +2,32 @@
 import hashlib
 import hmac
 
+def inverse_mod(k, p):
+    """Returns the inverse of k modulo p.
+    This function returns the only integer x such that (x * k) % p == 1.
+    k must be non-zero and p must be a prime.
+    """
+    if k == 0:
+        raise ZeroDivisionError('division by zero')
+
+    if k < 0:
+        # k ** -1 = p - (-k) ** -1  (mod p)
+        return p - inverse_mod(-k, p)
+
+    # Extended Euclidean algorithm.
+    s, old_s = 0, 1
+    t, old_t = 1, 0
+    r, old_r = p, k
+
+    while r != 0:
+        quotient = old_r // r
+        old_r, r = r, old_r - quotient * r
+        old_s, s = s, old_s - quotient * s
+        old_t, t = t, old_t - quotient * t
+
+    gcd, x, y = old_r, old_s, old_t
+
+    return x % p
 
 def get_hmac(key, data):
     return hmac.new(key, data, hashlib.sha256).digest()
@@ -47,9 +73,9 @@ def point_add(point1, point2):
         return None
 
     if x1 == x2:
-        m = (3 * x1 * x1) * pow(2 * y1, -1, p)
+        m = (3 * x1 * x1) * inverse_mod(2 * y1, p)
     else:
-        m = (y1 - y2) * pow(x1 - x2, -1, p)
+        m = (y1 - y2) * inverse_mod(x1 - x2, p)
 
     x3 = m * m - x1 - x2
     y3 = y1 + m * (x3 - x1)
@@ -105,7 +131,7 @@ def Sign_Transaction(seedHex, TransactionHex):
     kp = scalar_mult(k, g)
     kpX = kp[0]
     r = kpX % n
-    s = pow(k, -1, n) * (r * int(seedHex, 16)+int(s256.hex(), 16))
+    s = inverse_mod(k, n) * (r * int(seedHex, 16)+int(s256.hex(), 16))
     s = s % n
     signature = to_DER(hexify(r), hexify(s))
     signed_transaction = TransactionHex[:-2] + \
