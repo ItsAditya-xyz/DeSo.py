@@ -1,47 +1,76 @@
 import requests
-import json
-from deso.Route import getRoute
+
 
 class Posts:
+    def __init__(self,  nodeURL="https://node.deso.org/api/v0/"):
+        self.NODE_URL = nodeURL
 
-    def  getUserPosts(username = "", publicKey = "",  numToFetch = 10, mediaRequired = False, lastPostHash= "",readerPublicKey = "BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB"):
-        payload = {"PublicKeyBase58Check":publicKey,
-                    "Username":username,
-                    "ReaderPublicKeyBase58Check":readerPublicKey,
-                    "LastPostHashHex":lastPostHash,
-                    "NumToFetch":numToFetch,
-                    "MediaRequired":mediaRequired}
-        ROUTE = getRoute()
-        endpointURL = ROUTE + "get-posts-for-public-key"
-        response = requests.post(endpointURL, json = payload)
-        return response.json()
+    def getPostsStateless(self, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop", addGlobalFeedBool=False, fetchSubcommnets=False, getPostsByDESO=False, getPostsForFollowFeed=False, getPostsForGlobalWhitelist=True, mediaRequired=False, numToFetch=50, orderBy="", postContent="", postHashHex="", postsByDESOMinutesLookBack=0, customPayload={}):
+        endpointURL = self.NODE_URL + "get-posts-stateless"
+        payload = {"PostHashHex": postHashHex,
+                   "ReaderPublicKeyBase58Check": readerPublicKey,
+                   "OrderBy": orderBy,
+                   "StartTstampSecs": None,
+                   "PostContent": postContent,
+                   "NumToFetch": numToFetch,
+                   "FetchSubcomments": fetchSubcommnets,
+                   "GetPostsForFollowFeed": getPostsForFollowFeed,
+                   "GetPostsForGlobalWhitelist": getPostsForGlobalWhitelist,
+                   "GetPostsByDESO": getPostsByDESO,
+                   "MediaRequired": mediaRequired,
+                   "PostsByDESOMinutesLookback": postsByDESOMinutesLookBack,
+                   "AddGlobalFeedBool": addGlobalFeedBool}
+        response = requests.post(endpointURL, json=payload)
+        return response
 
-    def getPostInfo(postHash, commentLimit = 20, fetchParents = False, commentOffset = 0, addGlobalFeedBool = False, readerPublicKey = "BC1YLianxEsskKYNyL959k6b6UPYtRXfZs4MF3GkbWofdoFQzZCkJRB"):
-        payload = {"PostHashHex":postHash,
-                "ReaderPublicKeyBase58Check":readerPublicKey,
-                "FetchParents":fetchParents,
-                "CommentOffset":commentOffset,
-                "CommentLimit":commentLimit,
-                "AddGlobalFeedBool":addGlobalFeedBool}
-        ROUTE = getRoute()
-        endpointURL = ROUTE + "get-single-post"
-        response = requests.post(endpointURL, json = payload)
-        return response.json()
-            
-    def getHiddenPosts(publicKey):
-        '''to get all the deleted posts of a user
-        API credits: @Kuririn (https://bitclout.com/u/kuririn)'''
-        paylod = {"userParams":
-                    {"queryParams":
-                        {"length":0},
-                        "headersParams":{"length":0},
-                        "cookiesParams":{"length":0},
-                        "bodyParams":{"0":publicKey,"length":1}
-                    },    
-                    "password":"",
-                    "environment":"production",
-                    "queryType":"RESTQuery",
-                    "frontendVersion":"1",
-                    "releaseVersion":None,"includeQueryExecutionMetadata":True}
-        response = requests.post("https://apps.tryretool.com/api/public/8952bb20-817f-46f0-b28f-67569f4db682/query?queryName=getHiddenPosts", json= paylod)
-        return response.json()
+    def getSinglePost(self, postHashHex, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop", fetchParents=False, commnetLimit=10, commentOffset=0, addGlobalFeedBool=False, loadAuthorThread=True, ThreadLeafLimit=1, ThreadLevelLimit=2):
+        endpointURL = self.NODE_URL + "get-single-post"
+        payload = {"PostHashHex": postHashHex,
+                   "ReaderPublicKeyBase58Check": readerPublicKey,
+                   "FetchParents": fetchParents,
+                   "CommentOffset": commentOffset,
+                   "CommentLimit": commnetLimit,
+                   "AddGlobalFeedBool": addGlobalFeedBool,
+                   "ThreadLevelLimit": ThreadLevelLimit,
+                   "ThreadLeafLimit": ThreadLeafLimit,
+                   "LoadAuthorThread": loadAuthorThread}
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getPostsForPublicKey(self, username="", publicKey="", mediaRequired=False, numToFetch=10, lastPostHashHex="", readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        endpoint = self.NODE_URL + "get-posts-for-public-key"
+        payload = {"PublicKeyBase58Check": publicKey,
+                   "Username": username,
+                   "ReaderPublicKeyBase58Check": readerPublicKey,
+                   "LastPostHashHex": lastPostHashHex,
+                   "NumToFetch": numToFetch,
+                   "MediaRequired": mediaRequired}
+        response = requests.post(endpoint, json=payload)
+        return response
+
+    def getDiamondsForPost(self, postHashHex, limit=25, offset=0, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        endpointURL = self.NODE_URL + "get-diamonds-for-post"
+        payload = {"PostHashHex": postHashHex,
+                   "Offset": offset,
+                   "Limit": limit,
+                   "ReaderPublicKeyBase58Check": readerPublicKey}
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getLikesForPost(self, postHashHex, limit=50, offset=0, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        endpointURL = self.NODE_URL + "get-likes-for-post"
+        payload = {"PostHashHex": postHashHex,
+                   "Offset": offset,
+                   "Limit": limit,
+                   "ReaderPublicKeyBase58Check": readerPublicKey}
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getQuoteRepostsForPost(self, postHashHex, limit=50, offset=0, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        endpointURL = self.NODE_URL + "get-quote-reposts-for-post"
+        payload = {"PostHashHex": postHashHex,
+                   "Offset": offset,
+                   "Limit": limit,
+                   "ReaderPublicKeyBase58Check": readerPublicKey}
+        response = requests.post(endpointURL, json=payload)
+        return response

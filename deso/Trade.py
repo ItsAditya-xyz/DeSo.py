@@ -1,47 +1,83 @@
+from deso.utils import submitTransaction, appendExtraData
 import requests
-import json
-from deso.Route import getRoute
 from deso.Sign import Sign_Transaction
 
 
 class Trade:
-    def __init__(self, seedHex, publicKey):
+    def __init__(self, publicKey, seedHex=None,  nodeURL="https://node.deso.org/api/v0/", derivedPublicKey=None, derivedSeedHex=None, minFee=1000, derivedKeyFee=1700):
         self.SEED_HEX = seedHex
         self.PUBLIC_KEY = publicKey
+        self.NODE_URL = nodeURL
+        self.DERIVED_PUBLIC_KEY = derivedPublicKey
+        self.DERIVED_SEED_HEX = derivedSeedHex
+        self.MIN_FEE = minFee if seedHex else derivedKeyFee
 
-    def buy(self, keyToBuy, DeSo):
-        print(self.SEED_HEX)
-        DeSoNanos = int(DeSo * (10 ** 9))
-        payload = {
-            "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
-            "CreatorPublicKeyBase58Check": keyToBuy,
-            "OperationType": "buy",
-            "BitCloutToSellNanos": DeSoNanos,
-            "CreatorCoinToSellNanos": 0,
-            "BitCloutToAddNanos": 0,
-            "MinBitCloutExpectedNanos": 0,
-            "MinCreatorCoinExpectedNanos": 10,
-            "MinFeeRateNanosPerKB": 1000,
-        }
-        ROUTE = getRoute()
-        endpointURL = ROUTE + "buy-or-sell-creator-coin"
-        res = requests.post(endpointURL, json=payload)
-        transactionHex = res.json()["TransactionHex"]
+    def sendDeso(self, recieverPublicKeyOrUsername, desoToSend):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "send-deso"
+            payload = {"SenderPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "RecipientPublicKeyOrUsername": recieverPublicKeyOrUsername,
+                       "AmountNanos": int(round(desoToSend*1e9)),
+                       "MinFeeRateNanosPerKB": self.MIN_FEE}
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
 
-        signedTransactionHex = Sign_Transaction(
-            self.SEED_HEX, transactionHex
-        )  # txn signature
+    def buyCreatorCoin(self, creatorPublicKey, desoAmountToBuy):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "buy-or-sell-creator-coin"
+            payload = {"UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "CreatorPublicKeyBase58Check": creatorPublicKey,
+                       "OperationType": "buy",
+                       "DeSoToSellNanos": int(desoAmountToBuy * 1e9),
+                       "CreatorCoinToSellNanos": 0,
+                       "DeSoToAddNanos": 0,
+                       "MinDeSoExpectedNanos": 0,
+                       "MinCreatorCoinExpectedNanos": 0,
+                       "MinFeeRateNanosPerKB": self.MIN_FEE,
+                       "InTutorial": False}
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
 
-        submitPayload = {"TransactionHex": signedTransactionHex}
-        endpointURL = ROUTE + "submit-transaction"
-        submitResponse = requests.post(endpointURL, json=submitPayload)
-        return submitResponse.status_code  # returns 200 if buy is succesful
-
-        # if someone has time pls, add some meaningul try catch blocks and error messages. i will def tip you
-
-    def getMaxCoins(self, publicKeyOfCoin):
-        ROUTE = getRoute()
-        endpoint = ROUTE + "get-users-stateless"
+    def getHeldCoinsOfCreator(self, publicKeyOfCoin):
+        endpoint = self.NODE_URL + "get-users-stateless"
         payload = {"PublicKeysBase58Check": [self.PUBLIC_KEY]}
         response = requests.post(endpoint, json=payload)
         hodlings = response.json()["UserList"][0]["UsersYouHODL"]
@@ -53,42 +89,73 @@ class Trade:
                 else:
                     return -1
         return -1
-    def amountOnSell(bitcloutLockedNanos, coinsInCirculation, balanceNanos):
-        beforeFees = bitcloutLockedNanos * (1 - pow( (1-balanceNanos/coinsInCirculation), (1 / 0.3333333)))
-        return ((beforeFees * (100*100 -1)) / (100*100))
-        
-    def sell(self, keyToSell, coinsToSellNanos=0, sellMax=False):
-        coinsToSell = coinsToSellNanos
-        if sellMax == True:
-            maxCoins = Trade.getMaxCoins(self, publicKeyOfCoin=keyToSell)
-            if maxCoins == -1:
-                print("You don't hodl that creator")
-                return 404
-            else:
-                coinsToSell = maxCoins
 
-        ROUTE = getRoute()
-        payload = {
-            "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
-            "CreatorPublicKeyBase58Check": keyToSell,
-            "OperationType": "sell",
-            "BitCloutToSellNanos": 0,
-            "CreatorCoinToSellNanos": coinsToSell,
-            "BitCloutToAddNanos": 0,
-            "MinBitCloutExpectedNanos": 0,
-            "MinCreatorCoinExpectedNanos": 0,
-            "MinFeeRateNanosPerKB": 1000,
-        }
-        endpointURL = ROUTE + "buy-or-sell-creator-coin"
-        res = requests.post(
-            endpointURL, json=payload
-        )
-        transactionHex = res.json()["TransactionHex"]
-        signedTransactionHex = Sign_Transaction(
-            self.SEED_HEX, transactionHex
-        )  # txn signature
+    def amountOnSell(desoLockedNanos, coinsInCirculation, balanceNanos):
+        beforeFees = desoLockedNanos * \
+            (1 - pow((1-balanceNanos/coinsInCirculation), (1 / 0.3333333)))
+        return ((beforeFees * (100*100 - 1)) / (100*100))
 
-        submitPayload = {"TransactionHex": signedTransactionHex}
-        endpointURL = ROUTE + "submit-transaction"
-        submitResponse = requests.post(endpointURL, json=submitPayload)
-        return submitResponse.status_code  # returns 200 if sell is succesful
+    def sellCreatorCoin(self, creatorPublicKey, coinsToSellNanos):
+        try:
+            endpointURL = self.NODE_URL + "buy-or-sell-creator-coin"
+            payload = {
+                "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                "CreatorPublicKeyBase58Check": creatorPublicKey,
+                "OperationType": "sell",
+                "DeSoToSellNanos": 0,
+                "CreatorCoinToSellNanos": coinsToSellNanos,
+                "DeSoToAddNanos": 0,
+                "MinDeSoExpectedNanos": 0,
+                "MinCreatorCoinExpectedNanos": 0,
+                "MinFeeRateNanosPerKB": 1000,
+            }
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
+
+    def sendCreatorCoins(self, creatorPublicKey, receiverUsernameOrPublicKey, creatorCoinNanosToSend):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "transfer-creator-coin"
+            payload = {"SenderPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "CreatorPublicKeyBase58Check": creatorPublicKey,
+                       "ReceiverUsernameOrPublicKeyBase58Check": receiverUsernameOrPublicKey,
+                       "CreatorCoinToTransferNanos": creatorCoinNanosToSend,
+                       "MinFeeRateNanosPerKB": self.MIN_FEE}
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])

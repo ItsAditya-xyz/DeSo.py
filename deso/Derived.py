@@ -1,26 +1,42 @@
-from deso.Route import getRoute
 import requests
-from base58 import b58decode_check
+from deso.utils import submitTransaction
+import requests
+from deso.Sign import Sign_Transaction
 
 
-def addExtraData(transactionHex, derivedKey):
-    compressed_key = b58decode_check(derivedKey)[3:].hex()
-    payload = {"TransactionHex": transactionHex,
-               "ExtraData": {"DerivedPublicKey": compressed_key}}
-    endpoint = getRoute() + "append-extra-data"
-    res = requests.post(endpoint, json=payload)
-    TransactionHex = res.json()["TransactionHex"]
-    return TransactionHex
+class Derived:
+    # takes two optional Argument; publicKey and nodeURL. By default NodeURL is https://node.deso.org/api/v0/"
+    def __init__(self, nodeURL="https://node.deso.org/api/v0/",  minFee=1000):
+        self.NODE_URL = nodeURL
+        self.minFee = minFee
 
+    def authorizeDerivedKey(self, publicKey, derivedPublicKey, derivedSeedHex, expirationBlock, accessSignature, transactionSpendingLimitHex, derivedKeySignature=True, isAuth=True):
+        try:
+            error = None
+            payload = {
+                "OwnerPublicKeyBase58Check": publicKey,
+                "DerivedPublicKeyBase58Check": derivedPublicKey,
+                "ExpirationBlock": expirationBlock,
+                "AccessSignature": accessSignature,
+                "DeleteKey": not isAuth,
+                "DerivedKeySignature": derivedKeySignature,
+                "transactionSpendingLimitHex": transactionSpendingLimitHex,
+                "MinFeeRateNanosPerKB": self.MIN_FEE,
 
-def addExtraDataDict(transactionHex, extraData):
-    payload = {"TransactionHex": transactionHex,
-               "ExtraData": extraData}
-    endpoint = getRoute() + "append-extra-data"
-    res = requests.post(endpoint, json=payload)
-    try:
-        TransactionHex = res.json()["TransactionHex"]
-    except:
-        print(res.json())
-    return TransactionHex
-
+            }
+            endpoint = self.NODE_URL + "authorize-derived-key"
+            response = requests.post(endpoint, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    derivedSeedHex, transactionHex
+                )  # txn signature
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure public key, derived key and derivedSeedHex are correct.\nAlso, Make sure the derived Key hasAUTHORIZE_DERIVED_KEY permission as well"}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
