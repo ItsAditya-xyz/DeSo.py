@@ -3,7 +3,7 @@ import jwt
 import binascii
 import jwt
 from ecdsa import SECP256k1, VerifyingKey
-from Sign import Sign_Transaction
+from deso.Sign import Sign_Transaction
 from base58 import b58decode_check
 
 
