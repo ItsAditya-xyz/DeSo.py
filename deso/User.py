@@ -22,7 +22,7 @@ class User:
 
     def getProfilePicURL(self, publicKey):
         profilePicURL = f'{self.NODE_URL}get-single-profile-picture/{publicKey}?fallback=https://node.deso.org/assets/img/default_profile_pic.png'
-
+        return profilePicURL
     def getMessagesStateless(self, publicKey, numToFetch=25, sortAlgorithm="time", followersOnly=False, followingOnly=False, holdersOnly=False, holdingsOnly=False, fetchAfterPublicKey=""):
         endpointURL = self.NODE_URL + "get-messages-stateless"
         payload = {"PublicKeyBase58Check": publicKey,
