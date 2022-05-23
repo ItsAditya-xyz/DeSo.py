@@ -7,7 +7,7 @@ class User:
         self.NODE_URL = nodeURL
 
     def getSingleProfile(self, username="", publicKey="", NoErrorOnMissing=False):
-        endpointURL = self.NODE_URL + "get-posts-stateless"
+        endpointURL = self.NODE_URL + "get-single-profile"
         payload = {"PublicKeyBase58Check": publicKey,
                    "Username": username, "NoErrorOnMissing": NoErrorOnMissing}
         response = requests.post(endpointURL, json=payload)
