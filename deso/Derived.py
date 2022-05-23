@@ -8,7 +8,7 @@ class Derived:
     # takes two optional Argument; publicKey and nodeURL. By default NodeURL is https://node.deso.org/api/v0/"
     def __init__(self, nodeURL="https://node.deso.org/api/v0/",  minFee=1000):
         self.NODE_URL = nodeURL
-        self.minFee = minFee
+        self.MIN_FEE = minFee
 
     def authorizeDerivedKey(self, publicKey, derivedPublicKey, derivedSeedHex, expirationBlock, accessSignature, transactionSpendingLimitHex, derivedKeySignature=True, isAuth=True):
         try:
