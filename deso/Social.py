@@ -351,3 +351,33 @@ class Social:
             return submitTransactionResponse
         except Exception as e:
             raise Exception(error["error"])
+
+    def createNFTBid(self, bidAmountDeso, NFTPostHashHex, serialNumber):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "create-nft-bid"
+            payload = {"UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "NFTPostHashHex": NFTPostHashHex,
+                       "SerialNumber": serialNumber,
+                       "BidAmountNanos": round(bidAmountDeso * 1e9),
+                       "MinFeeRateNanosPerKB": self.MIN_FEE}
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])

@@ -74,3 +74,10 @@ class Posts:
                    "ReaderPublicKeyBase58Check": readerPublicKey}
         response = requests.post(endpointURL, json=payload)
         return response
+
+    def getNFTEntriesForNFTPost(self, postHashHex, readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        endpointURL = self.NODE_URL + "get-nft-entries-for-nft-post"
+        payload = {"ReaderPublicKeyBase58Check": readerPublicKey,
+                   "PostHashHex": postHashHex}
+        response = requests.post(endpointURL, json=payload)
+        return response
