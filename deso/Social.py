@@ -288,16 +288,18 @@ class Social:
                 transaction_id[1:] + '.arweave.net/' + image_id
             return build_url
 
-    def updateNFT(self, postHashHex: str, min_bid_deso: int = 1, for_sale: bool = True, serial_number: int = 1):
+    def updateNFT(self, postHashHex, buyNowPriceInDeso , buyNow=True  , minBidDeso = 1, forSale=True, serialNumber=1):
         try:
             error = None
             endpointURL = self.NODE_URL + "update-nft"
             payload = {
+                "BuyNowPriceNanos": round(buyNowPriceInDeso * 1e9) if buyNow else round(minBidDeso*1e9),
                 "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                "IsBuyNow": buyNow,
                 "NFTPostHashHex": postHashHex,
-                "SerialNumber": serial_number,
-                "IsForSale": for_sale,
-                "MinBidAmountNanos": min_bid_deso//1e9,  # convert DESO to NANOS
+                "SerialNumber": serialNumber,
+                "IsForSale": forSale,
+                "MinBidAmountNanos": None if buyNow else round(minBidDeso*1e9),
                 "MinFeeRateNanosPerKB": self.MIN_FEE
             }
             response = requests.post(endpointURL, json=payload)
@@ -362,6 +364,38 @@ class Social:
                        "BidAmountNanos": round(bidAmountDeso * 1e9),
                        "MinFeeRateNanosPerKB": self.MIN_FEE}
             response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
+
+    def transferNFT(self, NFTPostHashHex, receiverPublicKey, serialNumber):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "transfer-nft"
+            payload = {"SenderPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "ReceiverPublicKeyBase58Check": receiverPublicKey,
+                       "NFTPostHashHex": NFTPostHashHex,
+                       "SerialNumber": serialNumber,
+                       "EncryptedUnlockableText": "",
+                       "MinFeeRateNanosPerKB": self.MIN_FEE}
+            response = requests.post(endpointURL, json=payload)
+
             error = response.json()
             transactionHex = response.json()["TransactionHex"]
             if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
