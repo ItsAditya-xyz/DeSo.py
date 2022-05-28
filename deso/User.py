@@ -23,6 +23,7 @@ class User:
     def getProfilePicURL(self, publicKey):
         profilePicURL = f'{self.NODE_URL}get-single-profile-picture/{publicKey}?fallback=https://node.deso.org/assets/img/default_profile_pic.png'
         return profilePicURL
+
     def getMessagesStateless(self, publicKey, numToFetch=25, sortAlgorithm="time", followersOnly=False, followingOnly=False, holdersOnly=False, holdingsOnly=False, fetchAfterPublicKey=""):
         endpointURL = self.NODE_URL + "get-messages-stateless"
         payload = {"PublicKeyBase58Check": publicKey,
@@ -64,11 +65,30 @@ class User:
         response = requests.post(endpointURL, json=payload)
         return response
 
-    
     def getTransactionInfo(self, publicKey, limit=200, lastTransactionIDBase58Check="", lastPublicKeyTransactionIndex=-1):
         payload = {"PublicKeyBase58Check": publicKey,
                    "LastTransactionIDBase58Check": lastTransactionIDBase58Check,
                    "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex, "Limit": limit}
         endpointURL = self.NODE_URL + "transaction-info"
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getHoldersForPublicKey(self, publicKey="", username="", fetchAll=False, numToFetch=100, fetchHodlings=False, isDAOCOIN=False, lastPublicKey=""):
+        payload = {"PublicKeyBase58Check": publicKey,
+                   "Username": username,
+                   "LastPublicKeyBase58Check": lastPublicKey,
+                   "NumToFetch": numToFetch,
+                   "FetchHodlings": fetchHodlings,
+                   "FetchAll": fetchAll,
+                   "IsDAOCoin": isDAOCOIN}
+
+        endpointURL = self.NODE_URL + "get-hodlers-for-public-key"
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getDaoCoinLimitOrders(self, daoCoinPublicKey):
+        payload = {"DAOCoin1CreatorPublicKeyBase58Check": daoCoinPublicKey,
+                   "DAOCoin2CreatorPublicKeyBase58Check": "DESO"}
+        endpointURL = self.NODE_URL + "get-dao-coin-limit-orders"
         response = requests.post(endpointURL, json=payload)
         return response

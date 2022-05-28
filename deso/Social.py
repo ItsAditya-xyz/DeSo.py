@@ -326,7 +326,7 @@ class Social:
     def burnNFT(self, postHashHex, serialNumber):
         try:
             error = None
-            endpointURL = self.NODE_URL + "update-nft"
+            endpointURL = self.NODE_URL + "burn-nft"
             payload = {
                 "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
                 "NFTPostHashHex": postHashHex,
