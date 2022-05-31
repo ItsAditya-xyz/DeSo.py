@@ -138,7 +138,14 @@ print(desoUser.getHoldersForPublicKey(userPublicKey).json())
 import deso
 desoUser = deso.User()
 daoCoinPublicKey = "BC1YLj3zNA7hRAqBVkvsTeqw7oi4H6ogKiAFL1VXhZy6pYeZcZ6TDRY"
-print(desoUser.getDaoCoinLimitOrders())
+print(desoUser.getDaoCoinLimitOrders(daoCoinPublicKey))
+```
+
+11. Geting user followings/followers
+```python
+import deso 
+desoUser = deso.User()
+print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
 
 ### Posts

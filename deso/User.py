@@ -86,6 +86,18 @@ class User:
         response = requests.post(endpointURL, json=payload)
         return response
 
+    def getFollowsStateless(self, username="", publicKey="", getFollowing=True, numToFetch=50, lastPublicKey=""):
+        '''Returns list of user followings and followers'''
+        payload = {"Username": username,
+                   "PublicKeyBase58Check": publicKey,
+                   "GetEntriesFollowingUsername": not getFollowing,
+                   "LastPublicKeyBase58Check": lastPublicKey,
+                   "NumToFetch": numToFetch}
+
+        endpointURL = self.NODE_URL + "get-follows-stateless"
+        response = requests.post(endpointURL, json=payload)
+        return response
+
     def getDaoCoinLimitOrders(self, daoCoinPublicKey):
         payload = {"DAOCoin1CreatorPublicKeyBase58Check": daoCoinPublicKey,
                    "DAOCoin2CreatorPublicKeyBase58Check": "DESO"}
