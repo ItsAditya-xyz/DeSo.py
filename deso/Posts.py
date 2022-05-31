@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 
 
@@ -79,5 +80,18 @@ class Posts:
         endpointURL = self.NODE_URL + "get-nft-entries-for-nft-post"
         payload = {"ReaderPublicKeyBase58Check": readerPublicKey,
                    "PostHashHex": postHashHex}
+        response = requests.post(endpointURL, json=payload)
+        return response
+
+    def getHotFeed(self, taggedUsername, responeLimit=10, sortByNew=True, seenPosts=[], readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+        '''Returns posts that has mentioned in username'''
+        endpointURL = self.NODE_URL + "get-hot-feed"
+        payload = {"ReaderPublicKeyBase58Check":
+                   readerPublicKey,
+                   "SeenPosts": seenPosts,
+                   "Tag": f"@{taggedUsername}",
+                   "SortByNew": sortByNew,
+                   "ResponseLimit": responeLimit}
+
         response = requests.post(endpointURL, json=payload)
         return response

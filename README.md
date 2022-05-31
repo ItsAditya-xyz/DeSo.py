@@ -227,6 +227,13 @@ print(desoPosts.getQuoteRepostsForPost(postHashHex).json())
 # getQuoteRepostsForPost has more arguments like limit, offset etc.
 ```
 
+8. Get Hot feed/ Posts mentioning any @ username
+```python
+import deso
+desoPosts = deso.Posts()
+print(desoPosts.getHotFeed(taggedUsername="ItsAditya").json())
+```
+
 ### Social
 
 1. Making post to deso blockchain
