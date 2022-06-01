@@ -142,8 +142,9 @@ print(desoUser.getDaoCoinLimitOrders(daoCoinPublicKey))
 ```
 
 11. Geting user followings/followers
+
 ```python
-import deso 
+import deso
 desoUser = deso.User()
 print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
@@ -228,6 +229,7 @@ print(desoPosts.getQuoteRepostsForPost(postHashHex).json())
 ```
 
 8. Get Hot feed/ Posts mentioning any @ username
+
 ```python
 import deso
 desoPosts = deso.Posts()
@@ -477,7 +479,7 @@ creatorPublicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 print(desoTrade.buyCreatorCoin(creatorPublicKey=creatorPublicKey, desoAmountToBuy=2).json())
 ```
 
-3. get creator coins help by a publicKey
+3. get creator coins held by a publicKey
 
 ```python
 import deso
@@ -526,4 +528,21 @@ coinsToSendNanos = 34938
 creatorPublicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 print(desoTrade.sendCreatorCoins(creatorPublicKey=creatorPublicKey,
       receiverUsernameOrPublicKey="Octane", creatorCoinNanosToSend=coinsToSendNanos).json())
+```
+
+7. Send DAO coins
+
+```python
+import deso
+SEED_HEX = "Your seed Hex here"
+PUBLIC_KEY = "Your public key"
+
+'''Sends DAO coin to publicKey or username. Use the hex() function to convert a number to hexadecimal
+for Example, if you want to send 15 DAO coin, set coinsToTransferNanosInHex to hex(int(15*1e18))'''
+desoTrade = deso.Trade(publicKey=PUBLIC_KEY, seedHex=SEED_HEX)
+coinsToTransfer = 15
+coinsToTransferInRequiredForamt = hex(int(coinsToTransfer * 1e18))
+transferStatus = desoTrade.sendDAOCoins(coinsToTransfer=coinsToTransferInRequiredForamt,
+                                        daoPublicKeyOrName="CockyClout", receiverPublicKeyOrUsername="ItsAditya")
+print(transferStatus)
 ```
