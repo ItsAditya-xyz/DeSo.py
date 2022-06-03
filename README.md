@@ -149,6 +149,15 @@ desoUser = deso.User()
 print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
 
+12. Getting diamonds sent/received by a publicKey
+```python
+import deso
+
+desoUser = deso.User()
+publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
+print(desoUser.getDiamondsForPublicKey(publicKey, received=False).json())
+# set received = True to get diamonds given to a publicKey
+```
 ### Posts
 
 1. Get posts stateless - getting info about post

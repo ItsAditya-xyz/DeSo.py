@@ -104,3 +104,11 @@ class User:
         endpointURL = self.NODE_URL + "get-dao-coin-limit-orders"
         response = requests.post(endpointURL, json=payload)
         return response
+
+    def getDiamondsForPublicKey(self, publicKey, received=True):
+        '''Returns diamonds received/given by publicKey. '''
+        payload = {"PublicKeyBase58Check": publicKey,
+                   "FetchYouDiamonded": not received}
+        endpointURL = self.NODE_URL + "get-diamonds-for-public-key"
+        response = requests.post(endpointURL, json=payload)
+        return response
