@@ -150,6 +150,7 @@ print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
 
 12. Getting diamonds sent/received by a publicKey
+
 ```python
 import deso
 
@@ -158,6 +159,7 @@ publicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 print(desoUser.getDiamondsForPublicKey(publicKey, received=False).json())
 # set received = True to get diamonds given to a publicKey
 ```
+
 ### Posts
 
 1. Get posts stateless - getting info about post
@@ -547,11 +549,28 @@ SEED_HEX = "Your seed Hex here"
 PUBLIC_KEY = "Your public key"
 
 '''Sends DAO coin to publicKey or username. Use the hex() function to convert a number to hexadecimal
-for Example, if you want to send 15 DAO coin, set coinsToTransferNanosInHex to hex(int(15*1e18))'''
+for Example, if you want to send 15 DAO coin, set coinsToTransfer to hex(int(15*1e18))'''
 desoTrade = deso.Trade(publicKey=PUBLIC_KEY, seedHex=SEED_HEX)
 coinsToTransfer = 15
 coinsToTransferInRequiredForamt = hex(int(coinsToTransfer * 1e18))
 transferStatus = desoTrade.sendDAOCoins(coinsToTransfer=coinsToTransferInRequiredForamt,
                                         daoPublicKeyOrName="CockyClout", receiverPublicKeyOrUsername="ItsAditya")
+print(transferStatus)
+```
+
+8. Burn DAO coins
+
+```python
+import deso
+SEED_HEX = "Your seed Hex here"
+PUBLIC_KEY = "Your public key"
+
+'''Burns DAO coin of daoPublicKeyOrName. Use the hex() function to convert a number to hexadecimal
+        for Example, if you want to send 15 DAO coin, set coinsToBurn to hex(int(15*1e18))'''
+desoTrade = deso.Trade(publicKey=PUBLIC_KEY, seedHex=SEED_HEX)
+coinsToBurn = 5000000
+coisToBurnInRequiredFormat = hex(int(coinsToBurn * 1e18))
+transferStatus = desoTrade.burnDAOCoins(coinsToBurn=coisToBurnInRequiredFormat,
+                                        daoPublicKeyOrName="CockyClout")
 print(transferStatus)
 ```

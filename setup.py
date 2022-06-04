@@ -7,14 +7,14 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '2.1.2'
+VERSION = '2.1.3'
 DESCRIPTION = 'A python module for DeSo'
-LONG_DESCRIPTION = 'A package that allows to fetch various information from the DeSo blockchain using the bitclout APIs (by default). DeSo is a decentralised social media network'
+LONG_DESCRIPTION = 'DesoPy is a python module that enables devs to interact with DeSo Blockchain using node.deso.org node by default.'
 # Setting up
 setup(
     name="deso",
     version=VERSION,
-    author="ItsAditya (https://bitclout.com/u/ItsAditya)",
+    author="ItsAditya (https://diamondapp.com/u/ItsAditya)",
     author_email="<chaudharyaditya0005@gmail.com>",
     description="A python module for deso",
     long_description_content_type="text/markdown",
