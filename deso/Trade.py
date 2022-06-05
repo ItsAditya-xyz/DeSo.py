@@ -195,7 +195,7 @@ class Trade:
 
     def burnDAOCoins(self, coinsToBurn, daoPublicKeyOrName):
         '''Burns DAO coin of daoPublicKeyOrName. Use the hex() function to convert a number to hexadecimal
-        for Example, if you want to send 15 DAO coin, set coinsToBurn to hex(int(15*1e18))'''
+        for Example, if you want to burn 15 DAO coin, set coinsToBurn to hex(int(15*1e18))'''
         try:
             error = None
             endpointURL = self.NODE_URL + "dao-coin"
@@ -223,5 +223,39 @@ class Trade:
             submitTransactionResponse = submitTransaction(
                 signedTransactionHex, self.NODE_URL)
             return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
+
+    def mintDAOCoins(self, coinsToMint):
+        '''Mint DAO coins. Use the hex() function to convert a number to hexadecimal
+        for Example, if you want to mint 15 DAO coin, set coinsToBurn to hex(int(15*1e18))'''
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "dao-coin"
+            payload = {"UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                       "ProfilePublicKeyBase58CheckOrUsername": self.PUBLIC_KEY,
+                       "OperationType": "mint",
+                       "CoinsToMintNanos": coinsToMint,
+                       "MinFeeRateNanosPerKB": self.MIN_FEE}
+
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                extraDataResponse = appendExtraData(
+                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
+                error = extraDataResponse.json()
+                transactionHex = extraDataResponse.json()["TransactionHex"]
+            seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex)
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."}
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL)
+            return submitTransactionResponse
+
         except Exception as e:
             raise Exception(error["error"])
