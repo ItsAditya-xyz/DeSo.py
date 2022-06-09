@@ -52,17 +52,22 @@ class Social:
         except Exception as e:
             raise Exception(error["error"])
 
-    def repost(self,  postHashHexToRepost, postHashHexToModify="", parentStakeID=""):
+    def repost(self, postHashHexToRepost, postHashHexToModify="", parentStakeID="", postExtraData={"App": "DesoPy", "Language": "en"}):
         try:
             error = None
             endpointURL = self.NODE_URL + "submit-post"
+            finalPostExtraData = postExtraData
+            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
+                if "DerivedPublicKey" not in finalPostExtraData:
+                    finalPostExtraData["DerivedPublicKey"] = self.DERIVED_PUBLIC_KEY
+
             payload = {"UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
                        "PostHashHexToModify": postHashHexToModify,
                        "ParentStakeID": parentStakeID,
                        "Title": "",
                        "BodyObj": {},
                        "RepostedPostHashHex": postHashHexToRepost,
-                       "PostExtraData": {},
+                       "PostExtraData": finalPostExtraData,
                        "Sub": "",
                        "IsHidden": False,
                        "MinFeeRateNanosPerKB": self.MIN_FEE,
@@ -70,11 +75,6 @@ class Social:
             response = requests.post(endpointURL, json=payload)
             error = response.json()
             transactionHex = response.json()["TransactionHex"]
-            if self.DERIVED_PUBLIC_KEY is not None and self.DERIVED_SEED_HEX is not None and self.SEED_HEX is None:
-                extraDataResponse = appendExtraData(
-                    transactionHex, self.DERIVED_PUBLIC_KEY, self.NODE_URL)
-                error = extraDataResponse.json()
-                transactionHex = extraDataResponse.json()["TransactionHex"]
             seedHexToSignWith = self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
             try:
                 signedTransactionHex = Sign_Transaction(
