@@ -1,8 +1,14 @@
-# DesoPy - A python module to intereact with DeSo Blockchain
+# DesoPy - A python module to interact with DeSo Blockchain
 
-Developed by [ItsAditya](https://diamondapp.com/u/itsaditya)
+Developed by [ItsAditya](https://diamondapp.com/u/itsaditya).
 
-Run `pip install deso` to install the module!
+Installation: `pip install deso`. Works on **Windows, MacOS, and Linux**.
+
+## Get Your Credentials
+
+If you are having trouble getting your credentials (public key and seed hex), go to [https://get-deso-credentials.epiccodewizard2.repl.co/](https://get-deso-credentials.epiccodewizard2.repl.co/), the steps are on there. Credentials are permanent, so you only need to do it once! Demo:
+
+https://user-images.githubusercontent.com/83260377/173150641-2784ac7a-b3ff-48b6-b1e9-5a3a81222ac0.mp4
 
 ## How to Use:
 
