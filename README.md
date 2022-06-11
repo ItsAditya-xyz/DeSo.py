@@ -333,6 +333,7 @@ print(desoSocial.updateProfile(FR=10, description="This is my description",
 
 
 # In the above example, make sure profilePicBase64 is BASE64 encoded image otherwise it wont' work.
+# you can also pass `extraData`, a dict argument for extra data in profile
 ```
 
 7. Send Private Message

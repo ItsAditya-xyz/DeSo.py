@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '2.1.6'
+VERSION = '2.1.7'
 DESCRIPTION = 'A python module for DeSo'
 LONG_DESCRIPTION = 'DesoPy is a python module that enables devs to interact with DeSo Blockchain using node.deso.org node by default.'
 # Setting up

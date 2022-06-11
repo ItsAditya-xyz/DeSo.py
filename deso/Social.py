@@ -177,7 +177,7 @@ class Social:
         except Exception as e:
             raise Exception(error["error"])
 
-    def updateProfile(self, FR, description, username, profilePicBase64, newStakeMultipleBasisPoint=12500):
+    def updateProfile(self, FR, description, username, profilePicBase64, newStakeMultipleBasisPoint=12500, extraData={}):
         try:
             error = None
             endpointURL = self.NODE_URL + "update-profile"
@@ -187,6 +187,7 @@ class Social:
                        "NewDescription": description,
                        "NewUsername": username,
                        "NewProfilePic": profilePicBase64,
+                       "ExtraData": extraData,
                        "NewStakeMultipleBasisPoints": newStakeMultipleBasisPoint}
             response = requests.post(endpointURL, json=payload)
             error = response.json()
@@ -288,7 +289,7 @@ class Social:
                 transaction_id[1:] + '.arweave.net/' + image_id
             return build_url
 
-    def updateNFT(self, postHashHex, buyNowPriceInDeso , buyNow=True  , minBidDeso = 1, forSale=True, serialNumber=1):
+    def updateNFT(self, postHashHex, buyNowPriceInDeso, buyNow=True, minBidDeso=1, forSale=True, serialNumber=1):
         try:
             error = None
             endpointURL = self.NODE_URL + "update-nft"
