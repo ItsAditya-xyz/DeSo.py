@@ -9,8 +9,7 @@ class Media:
         self.NODE_URL = nodeURL
 
     def uploadImage(self, fileList):
-        # If the user passed the path to a simgle image, convert string into useable list
-        # I dont wanna make a list everytime I just want to upload a single image T_T
+        #uploads image to images.deso.org
         try:
             if type(fileList) == type("str"):
                 fileList = [
