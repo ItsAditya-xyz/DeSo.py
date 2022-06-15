@@ -13,11 +13,13 @@ class Metadata:
         return response
 
     def getExchangeRate(self):
+        '''Returns Deso Price'''
         endpointURL = self.NODE_URL + "get-exchange-rate"
         response = requests.get(endpointURL)
         return response
 
     def getAppState(self):
+        '''Returns App State that includes current block height, deso price and other node related data'''
         payload = {"PublicKeyBase58Check": self.PUBLIC_KEY}
 
         endpointURL = self.NODE_URL + "get-app-state"
@@ -25,6 +27,7 @@ class Metadata:
         return response
 
     def getDiamondLevelMap(self, inDesoNanos = True):
+        '''Returns Diamond Level Map. set inDesoNanos = False to get in Deso'''
         if inDesoNanos:
             return {
                 "1": 50000, "2": 500000, "3": 5000000, "4": 50000000, "5": 500000000, "6": 5000000000, "7": 50000000000, "8": 500000000000
