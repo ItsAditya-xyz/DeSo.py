@@ -6,6 +6,7 @@ class User:
         self.NODE_URL = nodeURL
 
     def getSingleProfile(self, username="", publicKey="", NoErrorOnMissing=False):
+        '''Gives user profile info. '''
         endpointURL = self.NODE_URL + "get-single-profile"
         payload = {"PublicKeyBase58Check": publicKey,
                    "Username": username, "NoErrorOnMissing": NoErrorOnMissing}
@@ -13,6 +14,7 @@ class User:
         return response
 
     def getUsersStateless(self, listOfPublicKeys, skipForLeaderboard=True):
+        '''Returns information about list of PublicKeys'''
         endpointURL = self.NODE_URL + "get-users-stateless"
         payload = {"PublicKeysBase58Check": listOfPublicKeys,
                    "SkipForLeaderboard": skipForLeaderboard}
@@ -20,6 +22,7 @@ class User:
         return response
 
     def getProfilePicURL(self, publicKey):
+        '''Returns the profile pic URL for a public key'''
         profilePicURL = f'{self.NODE_URL}get-single-profile-picture/{publicKey}?fallback=https://node.deso.org/assets/img/default_profile_pic.png'
         return profilePicURL
 
