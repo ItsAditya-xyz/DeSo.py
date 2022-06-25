@@ -141,7 +141,17 @@ daoCoinPublicKey = "BC1YLj3zNA7hRAqBVkvsTeqw7oi4H6ogKiAFL1VXhZy6pYeZcZ6TDRY"
 print(desoUser.getDaoCoinLimitOrders(daoCoinPublicKey))
 ```
 
-11. Geting user followings/followers
+
+11. Getting DAO coin price (market price)
+
+```python
+import deso
+desoUser = deso.User()
+daoCoinPublicKey = "BC1YLj3zNA7hRAqBVkvsTeqw7oi4H6ogKiAFL1VXhZy6pYeZcZ6TDRY"
+print(desoUser.getDaoCoinPrice(daoCoinPublicKey))
+```
+
+12. Geting user followings/followers
 
 ```python
 import deso
@@ -149,7 +159,7 @@ desoUser = deso.User()
 print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
 
-12. Getting diamonds sent/received by a publicKey
+13. Getting diamonds sent/received by a publicKey
 
 ```python
 import deso

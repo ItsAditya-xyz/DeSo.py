@@ -107,6 +107,27 @@ class User:
         response = requests.post(endpointURL, json=payload)
         return response
 
+    def getDaoCoinPrice(self, daoCoinPublicKey, type="MARKET"):
+        # returns dao coin price in DESO
+        if type == "MARKET":
+            daoLimtOrders = self.getDaoCoinLimitOrders(
+                daoCoinPublicKey=daoCoinPublicKey).json()
+            lowestAsk = 0
+            highestBid = 0
+            orderList = daoLimtOrders["Orders"]
+            for orders in orderList:
+                operationType = orders["OperationType"]
+                ExchangeRateCoinsToSellPerCoinToBuy = orders["ExchangeRateCoinsToSellPerCoinToBuy"]
+                daodaoPriceInDeso = 1 / ExchangeRateCoinsToSellPerCoinToBuy
+                if operationType == "ASK":
+                    if daodaoPriceInDeso < lowestAsk or lowestAsk == 0:
+                        lowestAsk = daodaoPriceInDeso
+                if operationType == "BID":
+                    if ExchangeRateCoinsToSellPerCoinToBuy > highestBid or highestBid == 0:
+                        highestBid = ExchangeRateCoinsToSellPerCoinToBuy
+
+            return (lowestAsk + highestBid)/2
+
     def getDiamondsForPublicKey(self, publicKey, received=True):
         '''Returns diamonds received/given by publicKey. '''
         payload = {"PublicKeyBase58Check": publicKey,
