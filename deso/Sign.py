@@ -2,13 +2,14 @@
 import hashlib
 import hmac
 
+
 def inverse_mod(k, p):
     """Returns the inverse of k modulo p.
     This function returns the only integer x such that (x * k) % p == 1.
     k must be non-zero and p must be a prime.
     """
     if k == 0:
-        raise ZeroDivisionError('division by zero')
+        raise ZeroDivisionError("division by zero")
 
     if k < 0:
         # k ** -1 = p - (-k) ** -1  (mod p)
@@ -28,6 +29,7 @@ def inverse_mod(k, p):
     gcd, x, y = old_r, old_s, old_t
 
     return x % p
+
 
 def get_hmac(key, data):
     return hmac.new(key, data, hashlib.sha256).digest()
@@ -50,13 +52,16 @@ def hmac_drbg(entropy, string):
 
     return temp[:32]
 
+
 #######
 
 
-g = (0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798,
-     0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)
-p = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f
-n = 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141
+g = (
+    0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798,
+    0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8,
+)
+p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
+n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 
 def point_add(point1, point2):
@@ -99,6 +104,7 @@ def scalar_mult(k, point):
 
     return result
 
+
 #######
 
 
@@ -106,12 +112,16 @@ def to_DER(r, s):  # Signature to DER format
     r = bytes.fromhex(r)
     s = bytes.fromhex(s)
     if r[0] >= 0x80:
-        r = bytes.fromhex("00")+r
+        r = bytes.fromhex("00") + r
     if s[0] >= 0x80:
-        s = bytes.fromhex("00")+s
-    res = bytes.fromhex("02"+hex(len(r))[2:]) + \
-        r + bytes.fromhex("02"+hex(len(s))[2:]) + s
-    res = bytes.fromhex("30"+hex(len(res))[2:]) + res
+        s = bytes.fromhex("00") + s
+    res = (
+        bytes.fromhex("02" + hex(len(r))[2:])
+        + r
+        + bytes.fromhex("02" + hex(len(s))[2:])
+        + s
+    )
+    res = bytes.fromhex("30" + hex(len(res))[2:]) + res
 
     return res.hex()
 
@@ -119,22 +129,26 @@ def to_DER(r, s):  # Signature to DER format
 def hexify(n):
     n = hex(n)[2:]
     if len(n) % 2 != 0:
-        n = "0"+n
+        n = "0" + n
     return n
 
 
 def Sign_Transaction(seedHex, TransactionHex):
-    s256 = hashlib.sha256(hashlib.sha256(
-        bytes.fromhex(TransactionHex)).digest()).digest()
+    s256 = hashlib.sha256(
+        hashlib.sha256(bytes.fromhex(TransactionHex)).digest()
+    ).digest()
     drbg = hmac_drbg(entropy=bytes.fromhex(seedHex), string=s256)
-    k = int.from_bytes(drbg, 'big')
+    k = int.from_bytes(drbg, "big")
     kp = scalar_mult(k, g)
     kpX = kp[0]
     r = kpX % n
-    s = inverse_mod(k, n) * (r * int(seedHex, 16)+int(s256.hex(), 16))
+    s = inverse_mod(k, n) * (r * int(seedHex, 16) + int(s256.hex(), 16))
     s = s % n
     signature = to_DER(hexify(r), hexify(s))
-    signed_transaction = TransactionHex[:-2] + \
-        hex(len(bytearray.fromhex(signature)))[2:] + signature
+    signed_transaction = (
+        TransactionHex[:-2]
+        + hex(len(bytearray.fromhex(signature)))[2:]
+        + signature
+    )
 
     return signed_transaction
