@@ -152,6 +152,19 @@ class Posts:
         response = requests.post(endpointURL, json=payload)
         return response
 
+    def getNFTBidsForNFTPost(
+        self,
+        postHashHex,
+        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
+    ):
+        endpointURL = self.NODE_URL + "get-nft-bids-for-nft-post"
+        payload = {
+            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "PostHashHex": postHashHex,
+        }
+        response = requests.post(endpointURL, json=payload)
+        return response
+
     def getHotFeed(
         self,
         taggedUsername,

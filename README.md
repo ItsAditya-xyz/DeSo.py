@@ -218,6 +218,9 @@ postHashHex = "74d50e4d33b7512941a2ada91a947aecfc2f9fd179d67eb1e0008d4812597196"
 print(desoPosts.getNFTEntriesForNFTPost(postHashHex).json())
 ```
 
+
+
+
 5. Get likes for post
 
 ```python
@@ -257,6 +260,15 @@ print(desoPosts.getQuoteRepostsForPost(postHashHex).json())
 import deso
 desoPosts = deso.Posts()
 print(desoPosts.getHotFeed(taggedUsername="ItsAditya").json())
+```
+9. Get NFT info along with all the bids made to that NFT
+
+```python
+import deso
+
+desoPosts = deso.Posts()
+postHashHex = "74d50e4d33b7512941a2ada91a947aecfc2f9fd179d67eb1e0008d4812597196"
+print(desoPosts.getNFTBidsForNFTPost(postHashHex).json())
 ```
 
 ### Social
