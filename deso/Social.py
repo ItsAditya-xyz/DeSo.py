@@ -32,6 +32,7 @@ class Social:
         videoURLs=[],
         postHashHexToModify="",
         parentStakeID="",
+        isHidden=False,
         repostedPostHash="",
         postExtraData={"App": "DesoPy", "Language": "en"},
     ):
@@ -62,7 +63,7 @@ class Social:
                 "RecloutedPostHashHex": repostedPostHash,
                 "PostExtraData": finalPostExtraData,
                 "Sub": "",
-                "IsHidden": False,
+                "IsHidden": isHidden,
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
             }
             response = requests.post(endpointURL, json=payload)
