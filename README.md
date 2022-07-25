@@ -4,7 +4,7 @@ The module uses node.deso.org API (by default) and can be changed to any Deso no
 
 Developed by [ItsAditya](https://diamondapp.com/u/itsaditya)
 
-Run `pip install deso` to install the module!
+Run `pip install deso` to install the module!!
 
 ## How to Use:
 
