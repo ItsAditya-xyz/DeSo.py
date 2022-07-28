@@ -142,6 +142,65 @@ class Social:
         except Exception as e:
             raise Exception(error["error"])
 
+    def quote(
+        self,
+        postHashHexToQuote,
+        body="",
+        imageURLs=[],
+        videoURLs=[],
+        postExtraData={"App": "DesoPy", "Language": "en"},
+    ):
+        try:
+            error = None
+            endpointURL = self.NODE_URL + "submit-post"
+            finalPostExtraData = postExtraData
+            if (
+                self.DERIVED_PUBLIC_KEY is not None
+                and self.DERIVED_SEED_HEX is not None
+                and self.SEED_HEX is None
+            ):
+                if "DerivedPublicKey" not in finalPostExtraData:
+                    finalPostExtraData[
+                        "DerivedPublicKey"
+                    ] = self.DERIVED_PUBLIC_KEY
+
+            payload = {
+                "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
+                "PostHashHexToModify": "",
+                "ParentStakeID": "",
+                "Title": "",
+                "BodyObj": {
+                    "Body": body,
+                    "ImageURLs": imageURLs,
+                    "VideoURLs": videoURLs,
+                },
+                "RepostedPostHashHex": postHashHexToQuote,
+                "PostExtraData": finalPostExtraData,
+                "Sub": "",
+                "IsHidden": False,
+                "MinFeeRateNanosPerKB": self.MIN_FEE,
+            }
+            response = requests.post(endpointURL, json=payload)
+            error = response.json()
+            transactionHex = response.json()["TransactionHex"]
+            seedHexToSignWith = (
+                self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
+            )
+            try:
+                signedTransactionHex = Sign_Transaction(
+                    seedHexToSignWith, transactionHex
+                )
+            except Exception as e:
+                error = {
+                    "error": "Something went wrong while signing the transactions. Make sure publicKey and seedHex are correct."
+                }
+            submitTransactionResponse = submitTransaction(
+                signedTransactionHex, self.NODE_URL
+            )
+            return submitTransactionResponse
+        except Exception as e:
+            raise Exception(error["error"])
+
     def follow(self, publicKeyToFollow, isFollow=True):
         try:
             error = None
