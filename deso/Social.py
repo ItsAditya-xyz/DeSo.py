@@ -60,7 +60,7 @@ class Social:
                     "ImageURLs": imageURLs,
                     "VideoURLs": videoURLs,
                 },
-                "RecloutedPostHashHex": repostedPostHash,
+                "RepostedPostHashHex": repostedPostHash,
                 "PostExtraData": finalPostExtraData,
                 "Sub": "",
                 "IsHidden": isHidden,

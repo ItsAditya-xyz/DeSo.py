@@ -316,7 +316,20 @@ postHashHexToRepost = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254b
 print(desoSocial.repost(postHashHexToRepost).json())
 ```
 
-4. Like a post
+4. Quote a post
+```python
+```python
+import deso
+
+SEED_HEX = 'YOUR SEED SEED_HEX'
+PUBLIC_KEY = 'YOUR PUBLIC_KEY'
+
+desoSocial = deso.Social(publicKey=PUBLIC_KEY, seedHex=SEED_HEX)
+postHashHexToQuote = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254bedbe177"
+print(desoSocial.quote(body = "this is quoted post", postHashHexToQuote).json())
+```
+
+5. Like a post
 
 ```python
 import deso
@@ -329,7 +342,7 @@ postHashHex = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254bedbe177"
 print(desoSocial.like(postHashHex, isLike=True).json())
 ```
 
-5. Diamond a post
+6. Diamond a post
 
 ```python
 import deso
@@ -343,7 +356,7 @@ receiverPublicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 print(desoSocial.diamond(postHashHex, receiverPublicKey,  diamondLevel=2).json())
 ```
 
-6. Update Profile
+7. Update Profile
 
 ```python
 import deso
@@ -360,7 +373,7 @@ print(desoSocial.updateProfile(FR=10, description="This is my description",
 # you can also pass `extraData`, a dict argument for extra data in profile
 ```
 
-7. Send Private Message
+8. Send Private Message
 
 ```python
 import deso
@@ -373,7 +386,7 @@ receiverPublicKey = "BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg"
 print(desoSocial.sendPrivateMessage(receiverPublicKey, "This DM is send using DesoPy library").json())
 ```
 
-8. Minting a postHashHex as NFT
+9. Minting a postHashHex as NFT
 
 ```python
 import deso
@@ -386,7 +399,7 @@ postHashHex = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254bedbe177"
 print(desoSocial.mint(postHashHex, minBidDeSo=1, copy=2, creatorRoyality=10, coinHolderRoyality=4, isForSale=True).json())
 ```
 
-9. Updating NFT to put it on sale, or as buy now etc.
+10. Updating NFT to put it on sale, or as buy now etc.
 
 ```python
 import deso
@@ -399,7 +412,7 @@ print(desoSocial.updateNFT(postHashHex, buyNowPriceInDeso=2,
       buyNow=True, minBidDeso=1.5, forSale=2, serialNumber=1).json())
 ```
 
-10. Burn an NFT
+11. Burn an NFT
 
 ```python
 
@@ -412,7 +425,7 @@ postHashHex = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254bedbe177"
 print(desoSocial.burnNFT(postHashHex, serialNumber=2).json())
 ```
 
-11. Create NFT Bid
+12. Create NFT Bid
 
 ```python
 
@@ -425,7 +438,7 @@ postHashHex = "bd292216e8cc1b7f2dd2cc6bba5afa20b65a4b9966ea191644c90254bedbe177"
 print(desoSocial.createNFTBid(NFTPostHashHex=postHashHex, serialNumber=1, bidAmountDeso=2).json())
 ```
 
-12. Transfer NFT
+13. Transfer NFT
 
 ```python
 
