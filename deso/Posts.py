@@ -186,7 +186,5 @@ class Posts:
             "ResponseLimit": responeLimit,
 
         }
-        print(payload)
-
         response = requests.post(endpointURL, json=payload)
         return response
