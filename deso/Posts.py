@@ -167,21 +167,26 @@ class Posts:
 
     def getHotFeed(
         self,
-        taggedUsername,
+        taggedUsername = "",
         responeLimit=10,
         sortByNew=True,
         seenPosts=[],
         readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
+        hashtag = ""
     ):
+        preFix = "@" if taggedUsername else "#"
+        inputTag = preFix + (hashtag if hashtag else taggedUsername)
         """Returns posts that has mentioned in username"""
         endpointURL = self.NODE_URL + "get-hot-feed"
         payload = {
             "ReaderPublicKeyBase58Check": readerPublicKey,
             "SeenPosts": seenPosts,
-            "Tag": f"@{taggedUsername}",
+            "Tag": f"{inputTag}",
             "SortByNew": sortByNew,
             "ResponseLimit": responeLimit,
+
         }
+        print(payload)
 
         response = requests.post(endpointURL, json=payload)
         return response
