@@ -317,7 +317,7 @@ print(desoSocial.repost(postHashHexToRepost).json())
 ```
 
 4. Quote a post
-```python
+
 ```python
 import deso
 
