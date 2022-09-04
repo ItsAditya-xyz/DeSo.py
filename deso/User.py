@@ -109,7 +109,7 @@ class User:
             "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex,
             "Limit": limit,
         }
-        endpointURL = self.NODE_URL + "transaction-info"
+        endpointURL =  "https://node.deso.org/api/v1/transaction-info"
         response = requests.post(endpointURL, json=payload)
         return response
 
