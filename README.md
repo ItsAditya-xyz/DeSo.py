@@ -487,7 +487,7 @@ print(desoIdentity.signTransaction(seedHex = SEED_HEX, transactionHex=transactio
 
 ### Media
 
-1. Upload iamge to images.deso.org
+1. Upload image to images.deso.org
 
 ```python
 import deso
@@ -497,7 +497,7 @@ PUBLIC_KEY = 'YOUR PUBLIC_KEY'
 desoMedia = deso.Media(  PUBLIC_KEY, SEED_HEX)
 imageFileList = [
     ('file', ('screenshot.jpg', open("img.png", "rb"), 'image/png'))
-]  # 'imageToUpload.png' is the image we are uploading to images.bitclout.com
+]  # 'img.png' is the image we are uploading to images.bitclout.com
 urlResponse = desoMedia.uploadImage(imageFileList)
 print(urlResponse.json())
 ```
