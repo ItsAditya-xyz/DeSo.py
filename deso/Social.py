@@ -425,10 +425,15 @@ class Social:
         postHashHex,
         minBidDeSo,
         copy=1,
-        creatorRoyality=5,
-        coinHolderRoyality=10,
-        isForSale=True,
+        creatorRoyality=0,
+        coinHolderRoyality=0,
+        isForSale=False,
+        AdditionalCoinRoyaltiesMap = {},
+        AdditionalDESORoyaltiesMap = {},
     ):
+        ''' Additional CC royality or deso wallet royality can be set by setting up AdditionalCoinRoyaltiesMap
+        AdditionalDESORoyaltiesMap. It is map of PublicKey: percentage * 100.
+        Example: AdditionalCoinRoyalitiesMap = {"BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg": 10*100} for setting up 10% '''
         try:
             error = None
             endpointURL = self.NODE_URL + "create-nft"
