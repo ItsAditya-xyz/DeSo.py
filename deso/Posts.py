@@ -174,8 +174,12 @@ class Posts:
         readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
         hashtag = ""
     ):
-        preFix = "@" if taggedUsername else "#"
-        inputTag = preFix + (hashtag if hashtag else taggedUsername)
+        if taggedUsername:
+            inputTag = "@" +   taggedUsername
+        elif hashtag:
+            inputTag = "#" +   hashtag
+        else:
+            inputTag=""
         """Returns posts that has mentioned in username"""
         endpointURL = self.NODE_URL + "get-hot-feed"
         payload = {
