@@ -17,10 +17,12 @@ class Social:
         derivedSeedHex=None,
         minFee=1000,
         derivedKeyFee=1700,
+        appName="DesoPy",
     ):
         self.SEED_HEX = seedHex
         self.PUBLIC_KEY = publicKey
         self.NODE_URL = nodeURL
+        self.appName = appName
         self.DERIVED_PUBLIC_KEY = derivedPublicKey
         self.DERIVED_SEED_HEX = derivedSeedHex
         self.MIN_FEE = minFee if seedHex else derivedKeyFee
@@ -34,8 +36,10 @@ class Social:
         parentStakeID="",
         isHidden=False,
         repostedPostHash="",
-        postExtraData={"App": "DesoPy", "Language": "en"},
+        language="en",
+
     ):
+        postExtraData={"App": self.appName, "Language": language},
         try:
             error = None
             endpointURL = self.NODE_URL + "submit-post"

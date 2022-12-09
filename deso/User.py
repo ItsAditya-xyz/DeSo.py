@@ -4,6 +4,7 @@ import requests
 class User:
     def __init__(self, nodeURL="https://node.deso.org/api/v0/"):
         self.NODE_URL = nodeURL
+        self.readerPublicKey = 'BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop'
 
     def getSingleProfile(
         self, username="", publicKey="", NoErrorOnMissing=False
@@ -77,7 +78,9 @@ class User:
         response = requests.post(endpointURL, json=payload)
         return response
 
-    def getNFTs(self, userPublicKey, readerPublicKey="", isForSale=False):
+    def getNFTs(self, userPublicKey,
+                readerPublicKey=self.readerPublicKey,
+                isForSale=False):
         """Gets the NFTs associated with a user,
         setting isForSale = True returns only the NFTs that are for sale."""
         payload = {

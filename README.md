@@ -1,6 +1,15 @@
 # DesoPy - A python module to intereact with DeSo Blockchain.
 
 The module uses node.deso.org API (by default) and can be changed to any Deso node URL
+by passing the argument `nodeURL` to any of the classes.
+
+For example:
+
+```python
+import deso
+
+du = deso.User(nodeURL="https://love4src.com/api/v0/")
+```
 
 Developed by [ItsAditya](https://diamondapp.com/u/itsaditya)
 
@@ -155,10 +164,18 @@ print(desoUser.getDaoCoinPrice(daoCoinPublicKey))
 
 12. Geting user followings/followers
 
+
 ```python
 import deso
 desoUser = deso.User()
 print(desoUser.getFollowsStateless(username = "ItsAditya").json())
+```
+
+The default behavior from the above code will return the users the account is following.
+To get the list of the account's followers, you must set **getFollowing** to *False*.
+
+```python
+print(desoUser.getFollowsStateless(username = "ItsAditya", getFollowing = False).json())
 ```
 
 13. Getting diamonds sent/received by a publicKey

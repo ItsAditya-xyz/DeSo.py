@@ -4,10 +4,10 @@ import requests
 class Posts:
     def __init__(self, nodeURL="https://node.deso.org/api/v0/"):
         self.NODE_URL = nodeURL
+        self.readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
 
     def getPostsStateless(
         self,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
         addGlobalFeedBool=False,
         fetchSubcommnets=False,
         getPostsByDESO=False,
@@ -24,7 +24,7 @@ class Posts:
         endpointURL = self.NODE_URL + "get-posts-stateless"
         payload = {
             "PostHashHex": postHashHex,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "OrderBy": orderBy,
             "StartTstampSecs": None,
             "PostContent": postContent,
@@ -43,7 +43,6 @@ class Posts:
     def getSinglePost(
         self,
         postHashHex,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
         fetchParents=False,
         commentLimit=10,
         commentOffset=0,
@@ -55,7 +54,7 @@ class Posts:
         endpointURL = self.NODE_URL + "get-single-post"
         payload = {
             "PostHashHex": postHashHex,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "FetchParents": fetchParents,
             "CommentOffset": commentOffset,
             "CommentLimit": commentLimit,
@@ -74,13 +73,12 @@ class Posts:
         mediaRequired=False,
         numToFetch=10,
         lastPostHashHex="",
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpoint = self.NODE_URL + "get-posts-for-public-key"
         payload = {
             "PublicKeyBase58Check": publicKey,
             "Username": username,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "LastPostHashHex": lastPostHashHex,
             "NumToFetch": numToFetch,
             "MediaRequired": mediaRequired,
@@ -93,14 +91,13 @@ class Posts:
         postHashHex,
         limit=25,
         offset=0,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpointURL = self.NODE_URL + "get-diamonds-for-post"
         payload = {
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -110,14 +107,13 @@ class Posts:
         postHashHex,
         limit=50,
         offset=0,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpointURL = self.NODE_URL + "get-likes-for-post"
         payload = {
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -127,14 +123,13 @@ class Posts:
         postHashHex,
         limit=50,
         offset=0,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpointURL = self.NODE_URL + "get-quote-reposts-for-post"
         payload = {
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -142,11 +137,10 @@ class Posts:
     def getNFTEntriesForNFTPost(
         self,
         postHashHex,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpointURL = self.NODE_URL + "get-nft-entries-for-nft-post"
         payload = {
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "PostHashHex": postHashHex,
         }
         response = requests.post(endpointURL, json=payload)
@@ -155,11 +149,10 @@ class Posts:
     def getNFTBidsForNFTPost(
         self,
         postHashHex,
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
     ):
         endpointURL = self.NODE_URL + "get-nft-bids-for-nft-post"
         payload = {
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "PostHashHex": postHashHex,
         }
         response = requests.post(endpointURL, json=payload)
@@ -168,10 +161,9 @@ class Posts:
     def getHotFeed(
         self,
         taggedUsername = "",
-        responeLimit=10,
+        responseLimit=10,
         sortByNew=True,
         seenPosts=[],
-        readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
         hashtag = ""
     ):
         preFix = "@" if taggedUsername else "#"
@@ -179,11 +171,11 @@ class Posts:
         """Returns posts that has mentioned in username"""
         endpointURL = self.NODE_URL + "get-hot-feed"
         payload = {
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "SeenPosts": seenPosts,
             "Tag": f"{inputTag}",
             "SortByNew": sortByNew,
-            "ResponseLimit": responeLimit,
+            "ResponseLimit": responseLimit,
 
         }
         response = requests.post(endpointURL, json=payload)
