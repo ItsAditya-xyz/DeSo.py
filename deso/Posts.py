@@ -2,9 +2,12 @@ import requests
 
 
 class Posts:
-    def __init__(self, nodeURL="https://node.deso.org/api/v0/"):
+    def __init__(self, 
+            nodeURL="https://node.deso.org/api/v0/",
+            readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
+            ):
         self.NODE_URL = nodeURL
-        self.readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
+        self.readerPublicKey = readerPublicKey
 
     def getPostsStateless(
         self,
