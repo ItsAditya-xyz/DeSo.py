@@ -2,9 +2,9 @@ import requests
 
 
 class User:
-    def __init__(self, nodeURL="https://node.deso.org/api/v0/"):
+    def __init__(self, nodeURL="https://node.deso.org/api/v0/", readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
         self.NODE_URL = nodeURL
-        self.readerPublicKey = 'BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop'
+        self.readerPublicKey = readerPublicKey
 
     def getSingleProfile(
         self, username="", publicKey="", NoErrorOnMissing=False
@@ -79,13 +79,12 @@ class User:
         return response
 
     def getNFTs(self, userPublicKey,
-                readerPublicKey=self.readerPublicKey,
                 isForSale=False):
         """Gets the NFTs associated with a user,
         setting isForSale = True returns only the NFTs that are for sale."""
         payload = {
             "UserPublicKeyBase58Check": userPublicKey,
-            "ReaderPublicKeyBase58Check": readerPublicKey,
+            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "IsForSale": isForSale,
         }
 
@@ -112,7 +111,7 @@ class User:
             "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex,
             "Limit": limit,
         }
-        endpointURL =  "https://node.deso.org/api/v1/transaction-info"
+        endpointURL = "https://node.deso.org/api/v1/transaction-info"
         response = requests.post(endpointURL, json=payload)
         return response
 
