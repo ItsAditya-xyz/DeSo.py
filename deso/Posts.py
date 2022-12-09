@@ -168,7 +168,7 @@ class Posts:
     def getHotFeed(
         self,
         taggedUsername = "",
-        responeLimit=10,
+        responseLimit=10,
         sortByNew=True,
         seenPosts=[],
         readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
@@ -183,7 +183,7 @@ class Posts:
             "SeenPosts": seenPosts,
             "Tag": f"{inputTag}",
             "SortByNew": sortByNew,
-            "ResponseLimit": responeLimit,
+            "ResponseLimit": responseLimit,
 
         }
         response = requests.post(endpointURL, json=payload)
