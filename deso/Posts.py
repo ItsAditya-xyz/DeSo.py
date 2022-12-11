@@ -2,7 +2,7 @@ import requests
 
 
 class Posts:
-    def __init__(self, 
+    def __init__(self,
             nodeURL="https://node.deso.org/api/v0/",
             readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
             ):
@@ -66,7 +66,10 @@ class Posts:
             "ThreadLeafLimit": ThreadLeafLimit,
             "LoadAuthorThread": loadAuthorThread,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
         return response
 
     def getPostsForPublicKey(
@@ -86,7 +89,11 @@ class Posts:
             "NumToFetch": numToFetch,
             "MediaRequired": mediaRequired,
         }
-        response = requests.post(endpoint, json=payload)
+        try:
+            response = requests.post(endpoint, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getDiamondsForPost(
@@ -102,7 +109,11 @@ class Posts:
             "Limit": limit,
             "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getLikesForPost(
@@ -118,7 +129,11 @@ class Posts:
             "Limit": limit,
             "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getQuoteRepostsForPost(
@@ -134,7 +149,11 @@ class Posts:
             "Limit": limit,
             "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getNFTEntriesForNFTPost(
@@ -146,7 +165,11 @@ class Posts:
             "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "PostHashHex": postHashHex,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getNFTBidsForNFTPost(
@@ -158,7 +181,11 @@ class Posts:
             "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "PostHashHex": postHashHex,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getHotFeed(
@@ -185,5 +212,9 @@ class Posts:
             "ResponseLimit": responseLimit,
 
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response

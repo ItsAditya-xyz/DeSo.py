@@ -16,7 +16,11 @@ class User:
             "Username": username,
             "NoErrorOnMissing": NoErrorOnMissing,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getUsersStateless(self, listOfPublicKeys, skipForLeaderboard=True):
@@ -26,7 +30,11 @@ class User:
             "PublicKeysBase58Check": listOfPublicKeys,
             "SkipForLeaderboard": skipForLeaderboard,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getProfilePicURL(self, publicKey):
@@ -56,7 +64,11 @@ class User:
             "FollowingOnly": followingOnly,
             "SortAlgorithm": sortAlgorithm,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getNotifications(
@@ -75,7 +87,11 @@ class User:
             "FilteredOutNotificationCategories": filterOutNotificationCategories,
         }
         endpointURL = "https://diamondapp.com/api/v0/get-notifications"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getNFTs(self, userPublicKey,
@@ -89,13 +105,21 @@ class User:
         }
 
         endpointURL = self.NODE_URL + "get-nfts-for-user"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getDerivedKeys(self, publicKey):
         payload = {"PublicKeyBase58Check": publicKey}
         endpointURL = self.NODE_URL + "get-user-derived-keys"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getTransactionInfo(
@@ -112,7 +136,11 @@ class User:
             "Limit": limit,
         }
         endpointURL = "https://node.deso.org/api/v1/transaction-info"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getHoldersForPublicKey(
@@ -136,7 +164,11 @@ class User:
         }
 
         endpointURL = self.NODE_URL + "get-hodlers-for-public-key"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getFollowsStateless(
@@ -157,7 +189,11 @@ class User:
         }
 
         endpointURL = self.NODE_URL + "get-follows-stateless"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getDaoCoinLimitOrders(self, daoCoinPublicKey):
@@ -166,7 +202,11 @@ class User:
             "DAOCoin2CreatorPublicKeyBase58Check": "DESO",
         }
         endpointURL = self.NODE_URL + "get-dao-coin-limit-orders"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getDaoCoinPrice(self, daoCoinPublicKey, type="MARKET"):
@@ -203,5 +243,9 @@ class User:
             "FetchYouDiamonded": not received,
         }
         endpointURL = self.NODE_URL + "get-diamonds-for-public-key"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response

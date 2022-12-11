@@ -28,8 +28,10 @@ class Media:
                 "UserPublicKeyBase58Check": self.PUBLIC_KEY,
                 "JWT": jwt_token,
             }
-
-            response = requests.post(endpointURL, data=payload, files=fileList)
+            try:
+                response = requests.post(endpointURL, data=payload, files=fileList)
+            except requests.exceptions.RequestException as e:
+                raise SystemExit(e)
             return response
         except Exception as e:
             return e
