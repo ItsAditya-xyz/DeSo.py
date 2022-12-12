@@ -29,7 +29,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-single-profile"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -46,7 +46,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-users-stateless"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -57,7 +57,7 @@ class User:
         """Returns the profile pic URL for a public key"""
         profilePicURL = f"{self.NODE_URL}get-single-profile-picture/" \
             "{publicKey}?fallback=https://node.deso.org/assets/img/" \
-            "default_profile_pic.png"
+                "default_profile_pic.png"
         return profilePicURL
 
     def getMessagesStateless(
@@ -85,7 +85,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] +  "get-messages-stateless"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -113,11 +113,13 @@ class User:
             "FilteredOutNotificationCategories":
                 filterOutNotificationCategories,
         }
+        # why is this endpoint different from the others?
+        # [TODO - check on this]
         endpointURL = "https://diamondapp.com/api/v0/get-notifications"
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] +  "get-notifications"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -138,7 +140,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-nfts-for-user"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -151,7 +153,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-user-derived-keys"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -171,11 +173,13 @@ class User:
             "LastPublicKeyTransactionIndex": lastPublicKeyTransactionIndex,
             "Limit": limit,
         }
+        # why is this endpoint different from the others?
+        # [TODO - check on this]
         endpointURL = "https://node.deso.org/api/v1/transaction-info"
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "transaction-info"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -206,7 +210,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-hodlers-for-public-key"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -234,7 +238,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-follows-stateless"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -250,7 +254,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-dao-coin-limit-orders"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -283,7 +287,7 @@ class User:
                         highestBid = ExchangeRateCoinsToSellPerCoinToBuy
             try:
                 daoCoinPrice = (lowestAsk + highestBid) / 2
-            except ZeroDivisionError:
+            except Exception:
                 daoCoinPrice = 0
             return daoCoinPrice
 
@@ -297,7 +301,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-diamonds-for-public-key"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)

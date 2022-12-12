@@ -51,7 +51,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-posts-stateless"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -84,7 +84,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-single-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -111,7 +111,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-posts-for-public-key"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -134,7 +134,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-diamonds-for-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -157,7 +157,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-likes-for-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -180,7 +180,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-quote-reposts-for-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -199,7 +199,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-nft-entries-for-nft-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -218,7 +218,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-nft-bids-for-nft-post"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -252,7 +252,7 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            self.NODE_URL = NODES[1]
+            endpointURL = NODES[1] + "get-hot-feed"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
