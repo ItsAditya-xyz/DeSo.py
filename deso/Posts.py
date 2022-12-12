@@ -1,9 +1,14 @@
 import requests
 
 
+NODES = [
+    'https://node.deso.org/api/v0/',
+    'https://love4src.com/api/v0/',
+]
+
 class Posts:
     def __init__(self,
-            nodeURL="https://node.deso.org/api/v0/",
+            nodeURL=NODES[0],
             readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
             ):
         self.NODE_URL = nodeURL
@@ -40,7 +45,13 @@ class Posts:
             "PostsByDESOMinutesLookback": postsByDESOMinutesLookBack,
             "AddGlobalFeedBool": addGlobalFeedBool,
         }
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
+            raise SystemExit(e)
         return response
 
     def getSinglePost(
@@ -69,6 +80,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
         return response
 
@@ -80,7 +94,7 @@ class Posts:
         numToFetch=10,
         lastPostHashHex="",
     ):
-        endpoint = self.NODE_URL + "get-posts-for-public-key"
+        endpointURL = self.NODE_URL + "get-posts-for-public-key"
         payload = {
             "PublicKeyBase58Check": publicKey,
             "Username": username,
@@ -90,8 +104,11 @@ class Posts:
             "MediaRequired": mediaRequired,
         }
         try:
-            response = requests.post(endpoint, json=payload)
+            response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -112,6 +129,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -132,6 +152,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -152,6 +175,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -168,6 +194,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -184,6 +213,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -215,6 +247,9 @@ class Posts:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
