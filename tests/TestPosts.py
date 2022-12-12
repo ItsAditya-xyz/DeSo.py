@@ -25,124 +25,118 @@ class TestPosts(unittest.TestCase):
         self.nft_post = '2298e051237a8b831aa27d4748d759a8002dd1ab448195ae89d888446ee444e3'
         self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn3Fq95RhCMYQVW1Anw'
 
+        self.posts = Posts(readerPublicKey=self.publicReaderKey)
+
+
     def test_get_single_post(self):
         """Test the getSinglePost method."""
-        posts = Posts()
         try:
-            response = posts.getSinglePost(self.post_hash)
+            response = self.posts.getSinglePost(self.post_hash)
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetSinglePost() using node: {self.posts.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
     def test_get_posts_stateless(self):
         """Test the getPostsStateless method."""
-        posts = Posts(readerPublicKey=self.publicReaderKey)
         try:
-            response = posts.getPostsStateless(
+            response = self.posts.getPostsStateless(
                 postHashHex=self.post_hash,
                 numToFetch=10,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetPostsStateless() using node: {self.posts.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
     def test_get_posts_for_public_key(self):
         """Test the getPostsForPublicKey method."""
-        posts = Posts(readerPublicKey=self.publicReaderKey)
         try:
-            response = posts.getPostsForPublicKey(
+            response = self.posts.getPostsForPublicKey(
                 publicKey=self.publicReaderKey,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetPostsForPublicKey() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
     def test_get_diamonds_for_post(self):
         """Test the getDiamondsForPost method."""
-        posts = Posts()
         try:
-            response = posts.getDiamondsForPost(
+            response = self.posts.getDiamondsForPost(
                 postHashHex=self.post_hash,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetDiamondsForPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
 
     def test_get_likes_for_post(self):
         """Test the getLikesForPost method."""
-        posts = Posts()
         try:
-            response = posts.getLikesForPost(
+            response = self.posts.getLikesForPost(
                 postHashHex=self.post_hash,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetLikesForPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
 
     def test_get_quotereposts_for_post(self):
         """Test the getQuoteRepostsForPost method."""
-        posts = Posts()
         try:
-            response = posts.getQuoteRepostsForPost(
+            response = self.posts.getQuoteRepostsForPost(
                 postHashHex=self.post_hash,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetQuoteRepostsForPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
     def test_get_nft_entries_for_nft_post(self):
         """Test the getNFTEntriesForNFTPost method."""
-        posts = Posts()
         try:
-            response = posts.getNFTEntriesForNFTPost(
+            response = self.posts.getNFTEntriesForNFTPost(
                 postHashHex=self.nft_post,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetNFTEntriesForNFTPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
     def test_get_nft_bids_for_nft_post(self):
         """Test the getNFTBidsForNFTPostPost method."""
-        posts = Posts()
         try:
-            response = posts.getNFTBidsForNFTPost(
+            response = self.posts.getNFTBidsForNFTPost(
                 postHashHex=self.nft_post,
             )
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetNFTBidsForNFTPostPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
     def test_get_hot_feed(self):
         """Test the getHotFeed method."""
-        posts = Posts()
         try:
-            response = posts.getHotFeed()
+            response = self.posts.getHotFeed()
         except:
             raise
         finally:
-            sys.stdout.write(f'\nUsing node: {posts.NODE_URL}\n')
+            sys.stdout.write(f'\ngetHotFeed() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
