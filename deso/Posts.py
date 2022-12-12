@@ -5,12 +5,15 @@ NODES = [
     'https://node.deso.org/api/v0/',
     'https://love4src.com/api/v0/',
 ]
+PUBKEY = "BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
+
 
 class Posts:
-    def __init__(self,
-            nodeURL=NODES[0],
-            readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
-            ):
+    def __init__(
+        self,
+        nodeURL=NODES[0],
+        readerPublicKey=PUBKEY,
+    ):
         self.NODE_URL = nodeURL
         self.readerPublicKey = readerPublicKey
 
@@ -47,11 +50,12 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
+
         return response
 
     def getSinglePost(
@@ -79,11 +83,12 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
+
         return response
 
     def getPostsForPublicKey(
@@ -105,10 +110,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -128,10 +133,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -151,10 +156,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -174,10 +179,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -193,10 +198,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -212,28 +217,28 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
 
     def getHotFeed(
         self,
-        taggedUsername = "",
+        taggedUsername="",
         responseLimit=10,
         sortByNew=True,
         seenPosts=[],
-        hashtag = ""
+        hashtag=""
     ):
         if taggedUsername:
-            inputTag = "@" +   taggedUsername
+            inputTag = "@" + taggedUsername
         elif hashtag:
-            inputTag = "#" +   hashtag
+            inputTag = "#" + hashtag
         else:
-            inputTag=""
+            inputTag = ""
         """Returns posts that has mentioned in username"""
         endpointURL = self.NODE_URL + "get-hot-feed"
         payload = {
@@ -246,10 +251,10 @@ class Posts:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
