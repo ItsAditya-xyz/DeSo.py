@@ -21,19 +21,24 @@ class TestPosts(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestPosts, self).__init__(*args, **kwargs)
-        self.post_hash = '75b0244b1abc19e3e7ae0cf36f43ecb12588aa30ae48db7992edf3fb94d289ad'
-        self.nft_post = '2298e051237a8b831aa27d4748d759a8002dd1ab448195ae89d888446ee444e3'
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn3Fq95RhCMYQVW1Anw'
+        self.post_hash = '75b0244b1abc19e3e7ae0cf36f43ecb12588aa30ae4'\
+            '8db7992edf3fb94d289ad'
+        self.nft_post = '2298e051237a8b831aa27d4748d759a8002dd1ab4481'\
+            '95ae89d888446ee444e3'
+        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToP'\
+            'n3Fq95RhCMYQVW1Anw'
 
         self.posts = Posts(readerPublicKey=self.publicReaderKey)
-
 
     def test_get_single_post(self):
         """Test the getSinglePost method."""
         try:
             response = self.posts.getSinglePost(self.post_hash)
+        except Exception:
+            raise
         finally:
-            sys.stdout.write(f'\ngetSinglePost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetSinglePost() using node: {self.posts.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
     def test_get_posts_stateless(self):
@@ -43,10 +48,11 @@ class TestPosts(unittest.TestCase):
                 postHashHex=self.post_hash,
                 numToFetch=10,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetPostsStateless() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetPostsStateless() using node: {self.posts.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
     def test_get_posts_for_public_key(self):
@@ -55,10 +61,12 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getPostsForPublicKey(
                 publicKey=self.publicReaderKey,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetPostsForPublicKey() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetPostsForPublicKey() using node: '
+                f'{self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
@@ -68,13 +76,14 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getDiamondsForPost(
                 postHashHex=self.post_hash,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetDiamondsForPost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetDiamondsForPost() using node: '
+                f'{self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
-
 
     def test_get_likes_for_post(self):
         """Test the getLikesForPost method."""
@@ -82,13 +91,13 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getLikesForPost(
                 postHashHex=self.post_hash,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetLikesForPost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetLikesForPost() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
-
 
     def test_get_quotereposts_for_post(self):
         """Test the getQuoteRepostsForPost method."""
@@ -96,10 +105,12 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getQuoteRepostsForPost(
                 postHashHex=self.post_hash,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetQuoteRepostsForPost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetQuoteRepostsForPost() using node: '
+                f'{self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
@@ -109,10 +120,12 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getNFTEntriesForNFTPost(
                 postHashHex=self.nft_post,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetNFTEntriesForNFTPost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetNFTEntriesForNFTPost() using node: '
+                f'{self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
@@ -122,10 +135,12 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getNFTBidsForNFTPost(
                 postHashHex=self.nft_post,
             )
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetNFTBidsForNFTPostPost() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetNFTBidsForNFTPostPost() using node: '
+                f'{self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
 
@@ -133,13 +148,13 @@ class TestPosts(unittest.TestCase):
         """Test the getHotFeed method."""
         try:
             response = self.posts.getHotFeed()
-        except:
+        except Exception:
             raise
         finally:
-            sys.stdout.write(f'\ngetHotFeed() using node: {self.posts.NODE_URL}\n')
+            sys.stdout.write(
+                f'\ngetHotFeed() using node: {self.posts.NODE_URL}\n')
 
         self.assertEqual(response.status_code, 200)
-
 
 
 if __name__ == "__main__":
