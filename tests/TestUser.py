@@ -41,6 +41,9 @@ class TestUser(unittest.TestCase):
         try:
             response = self.user.getSingleProfile(
                 publicKey=self.publicReaderKey)
+        except Exception:
+            raise
+
         finally:
             sys.stdout.write(
                 f'\ngetSingleProfile() using node: {self.user.NODE_URL}\n')
@@ -50,6 +53,9 @@ class TestUser(unittest.TestCase):
         """Test the getSingleProfile method using username"""
         try:
             response = self.user.getSingleProfile(username=self.username)
+        except Exception:
+            raise
+
         finally:
             sys.stdout.write(
                 f'\ngetSingleProfile() using node: {self.user.NODE_URL}\n')
@@ -61,6 +67,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getUsersStateless(
                 listOfPublicKeys=self.pkList
             )
+        except Exception:
+            raise
         finally:
             sys.stdout.write(
                 f'\ngetUsersStateless() using node: {self.user.NODE_URL}\n')
@@ -73,6 +81,8 @@ class TestUser(unittest.TestCase):
                 publicKey=self.publicReaderKey,
                 numToFetch=10,
             )
+        except Exception:
+            raise
         finally:
             sys.stdout.write(
                 f'\ngetMessagesStateless() using node: '
