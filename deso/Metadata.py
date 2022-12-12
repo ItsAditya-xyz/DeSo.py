@@ -1,33 +1,61 @@
-from deso.utils import getUserJWT
 import requests
+
+NODES = [
+    'https://node.deso.org/api/v0/',
+    'https://love4src.com/api/v0/',
+]
+PUBKEY = "BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
 
 
 class Metadata:
     def __init__(
         self,
-        publicKey="BC1YLhBLE1834FBJbQ9JU23JbPanNYMkUsdpJZrFVqNGsCe7YadYiUg",
-        nodeURL="https://node.deso.org/api/v0/",
+        publicKey=PUBKEY,
+        nodeURL=NODES[0],
     ):
         self.PUBLIC_KEY = publicKey
         self.NODE_URL = nodeURL
 
     def getNodeHealth(self):
         endpointURL = self.NODE_URL + "health-check"
-        response = requests.get(endpointURL)
+        try:
+            response = requests.get(endpointURL)
+        except requests.exceptions.Timeout:
+            endpointURL = NODES[1] + "health-check"
+            response = requests.get(endpointURL)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getExchangeRate(self):
         """Returns Deso Price"""
         endpointURL = self.NODE_URL + "get-exchange-rate"
-        response = requests.get(endpointURL)
+        try:
+            response = requests.get(endpointURL)
+        except requests.exceptions.Timeout:
+            endpointURL = NODES[1] + "get-exchange-rate"
+            response = requests.get(endpointURL)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getAppState(self):
-        """Returns App State that includes current block height, deso price and other node related data"""
+        """
+        Returns App State that includes current block height,
+        deso price and other node related data
+        """
         payload = {"PublicKeyBase58Check": self.PUBLIC_KEY}
-
         endpointURL = self.NODE_URL + "get-app-state"
-        response = requests.post(endpointURL, json=payload)
+        try:
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.Timeout:
+            endpointURL = NODES[1] + "get-app-state"
+            response = requests.post(endpointURL, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
         return response
 
     def getDiamondLevelMap(self, inDesoNanos=True):
