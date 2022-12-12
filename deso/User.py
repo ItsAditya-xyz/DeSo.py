@@ -1,8 +1,14 @@
 import requests
 
+NODES = [
+    'https://node.deso.org/api/v0/',
+    'https://love4src.com/api/v0/',
+]
 
 class User:
-    def __init__(self, nodeURL="https://node.deso.org/api/v0/", readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+    def __init__(self,
+                 nodeURL=NODES[0],
+                 readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
         self.NODE_URL = nodeURL
         self.readerPublicKey = readerPublicKey
 
@@ -19,6 +25,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -33,6 +42,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -67,6 +79,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -90,6 +105,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -108,6 +126,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -118,6 +139,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -139,6 +163,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -167,6 +194,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -192,6 +222,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -205,6 +238,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
@@ -246,6 +282,9 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
+            self.NODE_URL = NODES[1]
+            response = requests.post(endpointURL, json=payload)
+        except:
             raise SystemExit(e)
 
         return response
