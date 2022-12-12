@@ -4,11 +4,15 @@ NODES = [
     'https://node.deso.org/api/v0/',
     'https://love4src.com/api/v0/',
 ]
+PUBKEY = "BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"
+
 
 class User:
-    def __init__(self,
-                 nodeURL=NODES[0],
-                 readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop"):
+    def __init__(
+        self,
+        nodeURL=NODES[0],
+        readerPublicKey=PUBKEY,
+    ):
         self.NODE_URL = nodeURL
         self.readerPublicKey = readerPublicKey
 
@@ -24,10 +28,10 @@ class User:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -41,17 +45,19 @@ class User:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
 
     def getProfilePicURL(self, publicKey):
         """Returns the profile pic URL for a public key"""
-        profilePicURL = f"{self.NODE_URL}get-single-profile-picture/{publicKey}?fallback=https://node.deso.org/assets/img/default_profile_pic.png"
+        profilePicURL = f"{self.NODE_URL}get-single-profile-picture/" \
+            "{publicKey}?fallback=https://node.deso.org/assets/img/" \
+            "default_profile_pic.png"
         return profilePicURL
 
     def getMessagesStateless(
@@ -78,10 +84,10 @@ class User:
         }
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -93,21 +99,27 @@ class User:
         numToFetch=50,
         filterOutNotificationCategories={},
     ):
-        # filterOutNotification is a map that looks like {"diamond": True, "like": True,  "transfer": True, "follow": True, "nft": True, "post": True}
-        # ever True means that the specific notification category will be filtered out
+        # filterOutNotification is a map that looks like {"diamond": True,
+        # "like": True,  "transfer": True, "follow": True, "nft": True,
+        # "post": True} ever True means that the specific notification
+        # category will be filtered out
         payload = {
-            "PublicKeyBase58Check": publicKey,
-            "FetchStartIndex": startIndex,
-            "NumToFetch": numToFetch,
-            "FilteredOutNotificationCategories": filterOutNotificationCategories,
+            "PublicKeyBase58Check":
+                publicKey,
+            "FetchStartIndex":
+                startIndex,
+            "NumToFetch":
+                numToFetch,
+            "FilteredOutNotificationCategories":
+                filterOutNotificationCategories,
         }
         endpointURL = "https://diamondapp.com/api/v0/get-notifications"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -125,10 +137,10 @@ class User:
         endpointURL = self.NODE_URL + "get-nfts-for-user"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -138,10 +150,10 @@ class User:
         endpointURL = self.NODE_URL + "get-user-derived-keys"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -162,10 +174,10 @@ class User:
         endpointURL = "https://node.deso.org/api/v1/transaction-info"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -193,10 +205,10 @@ class User:
         endpointURL = self.NODE_URL + "get-hodlers-for-public-key"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -221,10 +233,10 @@ class User:
         endpointURL = self.NODE_URL + "get-follows-stateless"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -237,10 +249,10 @@ class User:
         endpointURL = self.NODE_URL + "get-dao-coin-limit-orders"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
@@ -269,8 +281,11 @@ class User:
                         or highestBid == 0
                     ):
                         highestBid = ExchangeRateCoinsToSellPerCoinToBuy
-
-            return (lowestAsk + highestBid) / 2
+            try:
+                daoCoinPrice = (lowestAsk + highestBid) / 2
+            except ZeroDivisionError:
+                daoCoinPrice = 0
+            return daoCoinPrice
 
     def getDiamondsForPublicKey(self, publicKey, received=True):
         """Returns diamonds received/given by publicKey."""
@@ -281,10 +296,10 @@ class User:
         endpointURL = self.NODE_URL + "get-diamonds-for-public-key"
         try:
             response = requests.post(endpointURL, json=payload)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.Timeout:
             self.NODE_URL = NODES[1]
             response = requests.post(endpointURL, json=payload)
-        except:
+        except requests.exceptions.RequestException as e:
             raise SystemExit(e)
 
         return response
