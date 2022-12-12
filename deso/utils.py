@@ -4,22 +4,46 @@ import binascii
 from base58 import b58decode_check
 from ecdsa import SECP256k1, VerifyingKey, SigningKey
 
+NODES = [
+    'https://node.deso.org/api/v0/',
+    'https://love4src.com/api/v0/',
+]
 
-def submitTransaction(signedTransactionHex, nodeURL):
+
+def submitTransaction(signedTransactionHex, nodeURL=NODES[0]):
     endpointURL = nodeURL + "submit-transaction"
     payload = {"TransactionHex": signedTransactionHex}
-    response = requests.post(endpointURL, json=payload)
+    try:
+        response = requests.post(endpointURL, json=payload)
+    except requests.exceptions.Timeout:
+        endpointURL = NODES[1] + "submit-transaction"
+        response = requests.post(endpointURL, json=payload)
+    except requests.exceptions.RequestException as e:
+        raise SystemExit(e)
+
     return response
 
 
-def appendExtraData(transactionHex, derivedKey, nodeURL):
+def appendExtraData(
+    transactionHex,
+    derivedKey,
+    nodeURL=NODES[0]
+):
 
     payload = {
         "TransactionHex": transactionHex,
         "ExtraData": {"DerivedPublicKey": derivedKey},
     }
-    endpoint = nodeURL + "append-extra-data"
-    response = requests.post(endpoint, json=payload)
+    endpointURL = nodeURL + "append-extra-data"
+
+    try:
+        response = requests.post(endpointURL, json=payload)
+    except requests.exceptions.Timeout:
+        endpointURL = NODES[1] + "append-extra-data"
+        response = requests.post(endpointURL, json=payload)
+    except requests.exceptions.RequestException as e:
+        raise SystemExit(e)
+
     return response
 
 
@@ -43,5 +67,8 @@ def getUserJWT(seedHex):
     private_key = binascii.unhexlify(private_key)
     key = SigningKey.from_string(private_key, curve=SECP256k1)
     key = key.to_pem()
-    encoded_jwt = jwt.encode({}, key, algorithm="ES256")
+    try:
+        encoded_jwt = jwt.encode({}, key, algorithm="ES256")
+    except jwt.InvalidIssuedAtError as e:
+        return {"isValid": False, "error": str(e)}
     return encoded_jwt
