@@ -57,7 +57,7 @@ class User:
         """Returns the profile pic URL for a public key"""
         profilePicURL = f"{self.NODE_URL}get-single-profile-picture/" \
             "{publicKey}?fallback=https://node.deso.org/assets/img/" \
-                "default_profile_pic.png"
+            "default_profile_pic.png"
         return profilePicURL
 
     def getMessagesStateless(
@@ -85,7 +85,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            endpointURL = NODES[1] +  "get-messages-stateless"
+            endpointURL = NODES[1] + "get-messages-stateless"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
@@ -119,7 +119,7 @@ class User:
         try:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.Timeout:
-            endpointURL = NODES[1] +  "get-notifications"
+            endpointURL = NODES[1] + "get-notifications"
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)

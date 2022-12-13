@@ -1,8 +1,10 @@
-from ecdsa import SigningKey, SECP256k1
 import jwt
 import binascii
-import jwt
-from ecdsa import SECP256k1, VerifyingKey
+from ecdsa import (
+    SECP256k1,
+    VerifyingKey,
+    SigningKey
+)
 from deso.Sign import Sign_Transaction
 from base58 import b58decode_check
 
@@ -26,7 +28,8 @@ class Identity:
         self.MIN_FEE = minFee if seedHex else derivedKeyFee
 
     def getJWT(self):
-        # returns JWT token of user that helps in public key validation in backend
+        # returns JWT token of user that helps in public key validation
+        # in backend
         private_key = bytes(self.SEED_HEX, "utf-8")
         private_key = binascii.unhexlify(private_key)
         key = SigningKey.from_string(private_key, curve=SECP256k1)
@@ -48,7 +51,8 @@ class Identity:
             return {"isValid": False, "error": str(e)}
 
     def signTransaction(seedHex, transactionHex):
-        """Signs Transaction thorugh seedHex. Supports derived key signing as well"""
+        """Signs Transaction thorugh seedHex.
+        Supports derived key signing as well"""
         try:
             signedTransactionHex = Sign_Transaction(seedHex, transactionHex)
             return signedTransactionHex
