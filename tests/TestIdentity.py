@@ -17,7 +17,7 @@ from deso import Identity
 
 
 class TestIdentity(unittest.TestCase):
-    """Test the Metadata class."""
+    """Test the Identity class."""
 
     def __init__(self, *args, **kwargs):
         super(TestIdentity, self).__init__(*args, **kwargs)
