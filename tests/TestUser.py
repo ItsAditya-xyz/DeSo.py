@@ -41,9 +41,8 @@ class TestUser(unittest.TestCase):
         try:
             response = self.user.getSingleProfile(
                 publicKey=self.publicReaderKey)
-        except Exception:
-            raise
-
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetSingleProfile() using node: {self.user.NODE_URL}\n')
@@ -53,9 +52,8 @@ class TestUser(unittest.TestCase):
         """Test the getSingleProfile method using username"""
         try:
             response = self.user.getSingleProfile(username=self.username)
-        except Exception:
-            raise
-
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetSingleProfile() using node: {self.user.NODE_URL}\n')
@@ -67,8 +65,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getUsersStateless(
                 listOfPublicKeys=self.pkList
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetUsersStateless() using node: {self.user.NODE_URL}\n')
@@ -81,8 +79,8 @@ class TestUser(unittest.TestCase):
                 publicKey=self.publicReaderKey,
                 numToFetch=10,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetMessagesStateless() using node: '
@@ -96,8 +94,8 @@ class TestUser(unittest.TestCase):
                 publicKey=self.publicReaderKey,
                 numToFetch=10,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetNotificaitons() using node: {self.user.NODE_URL}\n')
@@ -110,8 +108,8 @@ class TestUser(unittest.TestCase):
                 userPublicKey=self.publicReaderKey,
                 isForSale=True
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetNFTs() using node: {self.user.NODE_URL}\n')
@@ -123,8 +121,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getDerivedKeys(
                 publicKey=self.publicReaderKey,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetDerivedKeys() using node: '
@@ -137,8 +135,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getTransactionInfo(
                 publicKey=self.publicReaderKey,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetTransactionInfo() using node: '
@@ -151,8 +149,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getHoldersForPublicKey(
                 self.publicReaderKey,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetHoldersForPublicKey() using node: '
@@ -165,8 +163,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getDaoCoinLimitOrders(
                 self.publicReaderKey,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetDaoCoinLimitOrders() using node: '
@@ -179,8 +177,8 @@ class TestUser(unittest.TestCase):
             response = self.user.getDaoCoinPrice(
                 self.daoPublicKey
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetDaoCoinPrice() using node: '
@@ -194,8 +192,8 @@ class TestUser(unittest.TestCase):
                 username=self.username,
                 getFollowing=False,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetFollowsStateless(followers) using node: '
@@ -207,8 +205,8 @@ class TestUser(unittest.TestCase):
                 username=self.username,
                 getFollowing=True,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetFollowsStateless(following) using node: '
@@ -222,13 +220,12 @@ class TestUser(unittest.TestCase):
                 publicKey=self.publicReaderKey,
                 received=True,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetDiamondsForPublicKey(received) using node: '
                 f'{self.user.NODE_URL}\n')
-
         self.assertEqual(response.status_code, 200)
 
 

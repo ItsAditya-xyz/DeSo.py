@@ -34,8 +34,8 @@ class TestPosts(unittest.TestCase):
         """Test the getSinglePost method."""
         try:
             response = self.posts.getSinglePost(self.post_hash)
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetSinglePost() using node: {self.posts.NODE_URL}\n')
@@ -48,8 +48,8 @@ class TestPosts(unittest.TestCase):
                 postHashHex=self.post_hash,
                 numToFetch=10,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetPostsStateless() using node: {self.posts.NODE_URL}\n')
@@ -61,8 +61,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getPostsForPublicKey(
                 publicKey=self.publicReaderKey,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetPostsForPublicKey() using node: '
@@ -76,8 +76,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getDiamondsForPost(
                 postHashHex=self.post_hash,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetDiamondsForPost() using node: '
@@ -91,8 +91,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getLikesForPost(
                 postHashHex=self.post_hash,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetLikesForPost() using node: {self.posts.NODE_URL}\n')
@@ -105,8 +105,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getQuoteRepostsForPost(
                 postHashHex=self.post_hash,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetQuoteRepostsForPost() using node: '
@@ -120,8 +120,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getNFTEntriesForNFTPost(
                 postHashHex=self.nft_post,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetNFTEntriesForNFTPost() using node: '
@@ -135,8 +135,8 @@ class TestPosts(unittest.TestCase):
             response = self.posts.getNFTBidsForNFTPost(
                 postHashHex=self.nft_post,
             )
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetNFTBidsForNFTPostPost() using node: '
@@ -148,8 +148,8 @@ class TestPosts(unittest.TestCase):
         """Test the getHotFeed method."""
         try:
             response = self.posts.getHotFeed()
-        except Exception:
-            raise
+        except Exception as e:
+            self.fail(e)
         finally:
             sys.stdout.write(
                 f'\ngetHotFeed() using node: {self.posts.NODE_URL}\n')

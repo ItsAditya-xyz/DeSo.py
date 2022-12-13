@@ -37,6 +37,10 @@ class TestMedia(unittest.TestCase):
             response = self.media.uploadImage(imageFileList)
         except Exception as e:
             self.fail(e)
+        finally:
+            sys.stdout.write(
+                f'\nuploadImage() using node: {self.media.NODE_URL}\n')
+
         self.assertEqual(response.status_code, 200)
 
 

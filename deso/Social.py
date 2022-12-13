@@ -480,14 +480,14 @@ class Social:
         postHashHex,
         minBidDeSo,
         copy=1,
-        creatorRoyality=0,
-        coinHolderRoyality=0,
+        creatorRoyalty=0,
+        coinHolderRoyalty=0,
         isForSale=False,
         AdditionalCoinRoyaltiesMap={},
         AdditionalDESORoyaltiesMap={},
     ):
         '''
-        Additional CC royality or deso wallet royality can be set by setting
+        Additional CC royalty or deso wallet royalty can be set by setting
         up AdditionalCoinRoyaltiesMap AdditionalDESORoyaltiesMap.
         It is map of PublicKey: percentage * 100.
         Example: AdditionalCoinRoyalitiesMap =
@@ -500,8 +500,8 @@ class Social:
             "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
             "NFTPostHashHex": postHashHex,
             "NumCopies": copy,
-            "NFTRoyaltyToCreatorBasisPoints": round(creatorRoyality * 100),
-            "NFTRoyaltyToCoinBasisPoints": round(coinHolderRoyality * 100),
+            "NFTRoyaltyToCreatorBasisPoints": round(creatorRoyalty * 100),
+            "NFTRoyaltyToCoinBasisPoints": round(coinHolderRoyalty * 100),
             "HasUnlockable": False,
             "IsForSale": isForSale,
             "MinBidAmountNanos": round(minBidDeSo * 1e9),

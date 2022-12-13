@@ -23,16 +23,13 @@ class TestIdentity(unittest.TestCase):
         super(TestIdentity, self).__init__(*args, **kwargs)
         self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8Phdge' \
             'ToPn3Fq95RhCMYQVW1Anw'
-        self.userPublicKey = None
-        self.userSeedHex = None
+        self.userPublicKey = input("Enter your public key: ")
+        self.userSeedHex = input("Enter your seed hex: ")
         self.jwt_token = None
-        self.identity = Identity(self.publicReaderKey)
+        self.identity = Identity(self.userPublicKey, self.userSeedHex)
 
     def test_get_JWT(self):
         """Test the getJWT method."""
-        self.userPublicKey = input("Enter your public key: ")
-        self.userSeedHex = input("Enter your seed hex: ")
-        self.identity = Identity(self.userPublicKey, self.userSeedHex)
         self.jwt_token = self.identity.getJWT()
         self.assertIsNotNone(self.jwt_token)
 
