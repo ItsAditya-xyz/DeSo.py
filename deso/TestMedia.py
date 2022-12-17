@@ -1,19 +1,9 @@
 """
 Unit tests for the deso.posts module.
 """
-import sys
-import importlib
 import unittest
-# making sure we're not importing some other version of deso
-# there is certainly a better way to do this, so if you know it
-# pls feel free to contribute it :)
-MODULE_PATH = "../deso/__init__.py"
-MODULE_NAME = "deso"
-spec = importlib.util.spec_from_file_location(MODULE_NAME, MODULE_PATH)
-module = importlib.util.module_from_spec(spec)
-sys.modules[spec.name] = module
-spec.loader.exec_module(module)
-from deso import Media
+import sys
+from Media import Media
 
 
 class TestMedia(unittest.TestCase):
@@ -28,7 +18,7 @@ class TestMedia(unittest.TestCase):
     def test_upload_image(self):
         """Test the uploadImage method."""
         imageFileList = [
-            ('file', ('screenshot.jpg', open("deso.png", "rb"), 'image/png'))
+            ('file', ('deso.png', open("../deso.png", "rb"), 'image/png'))
         ]
         publicKey = input("Enter your public key: ")
         seedHex = input("Enter your seed hex: ")

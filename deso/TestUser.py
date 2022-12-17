@@ -1,19 +1,9 @@
 """
 Unit tests for the deso.posts module.
 """
-import sys
-import importlib
 import unittest
-# making sure we're not importing some other version of deso
-# there is certainly a better way to do this, so if you know it
-# pls feel free to contribute it :)
-MODULE_PATH = "../deso/__init__.py"
-MODULE_NAME = "deso"
-spec = importlib.util.spec_from_file_location(MODULE_NAME, MODULE_PATH)
-module = importlib.util.module_from_spec(spec)
-sys.modules[spec.name] = module
-spec.loader.exec_module(module)
-from deso import User
+import sys
+from User import User
 
 
 class TestUser(unittest.TestCase):
