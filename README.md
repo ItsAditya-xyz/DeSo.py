@@ -1,4 +1,4 @@
-# DesoPy - A python module to intereact with DeSo Blockchain.
+# DesoPy - A python module to interact with DeSo Blockchain.
 
 The module uses node.deso.org API (by default) and can be changed to any Deso node URL
 by passing the argument `nodeURL` to any of the classes.
