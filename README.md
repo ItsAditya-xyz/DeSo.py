@@ -1,5 +1,7 @@
 # DesoPy - A python module to interact with DeSo Blockchain.
 
+Run `pip install deso` to install the module!
+
 The module uses node.deso.org API (by default) and can be changed to any Deso node URL
 by passing the argument `nodeURL` to any of the classes.
 
@@ -12,8 +14,6 @@ desoUser = deso.User(nodeURL="https://love4src.com/api/v0/")
 ```
 
 Developed by [ItsAditya](https://diamondapp.com/u/itsaditya)
-
-Run `pip install deso` to install the module!!
 
 ## How to Use:
 
