@@ -286,7 +286,7 @@ print(desoPosts.getNFTBidsForNFTPost(postHashHex).json())
 
 ### Social
 
-0. To perform all the WRITE actions to DeSo Blockchain you need SEED_HEX and DESO Public Key.
+To perform all the WRITE actions to DeSo Blockchain you need SEED_HEX and DESO Public Key.
 
 This is how you generate SEED_HEX using your 12 word mnemonic phrase.
 
