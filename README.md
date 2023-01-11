@@ -8,7 +8,7 @@ For example:
 ```python
 import deso
 
-du = deso.User(nodeURL="https://love4src.com/api/v0/")
+desoUser = deso.User(nodeURL="https://love4src.com/api/v0/")
 ```
 
 Developed by [ItsAditya](https://diamondapp.com/u/itsaditya)
@@ -152,7 +152,6 @@ daoCoinPublicKey = "BC1YLj3zNA7hRAqBVkvsTeqw7oi4H6ogKiAFL1VXhZy6pYeZcZ6TDRY"
 print(desoUser.getDaoCoinLimitOrders(daoCoinPublicKey))
 ```
 
-
 11. Getting DAO coin price (market price)
 
 ```python
@@ -164,7 +163,6 @@ print(desoUser.getDaoCoinPrice(daoCoinPublicKey))
 
 12. Geting user followings/followers
 
-
 ```python
 import deso
 desoUser = deso.User()
@@ -172,7 +170,7 @@ print(desoUser.getFollowsStateless(username = "ItsAditya").json())
 ```
 
 The default behavior from the above code will return the users the account is following.
-To get the list of the account's followers, you must set **getFollowing** to *False*.
+To get the list of the account's followers, you must set **getFollowing** to _False_.
 
 ```python
 print(desoUser.getFollowsStateless(username = "ItsAditya", getFollowing = False).json())
@@ -235,9 +233,6 @@ postHashHex = "74d50e4d33b7512941a2ada91a947aecfc2f9fd179d67eb1e0008d4812597196"
 print(desoPosts.getNFTEntriesForNFTPost(postHashHex).json())
 ```
 
-
-
-
 5. Get likes for post
 
 ```python
@@ -278,6 +273,7 @@ import deso
 desoPosts = deso.Posts()
 print(desoPosts.getHotFeed(taggedUsername="ItsAditya").json())
 ```
+
 9. Get NFT info along with all the bids made to that NFT
 
 ```python
@@ -289,6 +285,25 @@ print(desoPosts.getNFTBidsForNFTPost(postHashHex).json())
 ```
 
 ### Social
+
+0. To perform all the WRITE actions to DeSo Blockchain you need SEED_HEX and DESO Public Key.
+
+This is how you generate SEED_HEX using your 12 word mnemonic phrase.
+
+```python
+from deso import Identity
+SEED_PHRASE = 'YOUR 12 WORD DESO SEED PHRASE'
+SEED_HEX = Identity.getSeedHexFromSeedPhrase(SEED_PHRASE)
+print(SEED_HEX)
+```
+
+You can also generate brand new DeSo seed phrase using this code.
+
+```python
+from deso import Identity
+seedPhrase = Identity.generateDesoSeedPhrase()
+print(seedPhrase)
+```
 
 1. Making post to deso blockchain
 
@@ -631,6 +646,7 @@ print(burnStatus)
 ```
 
 9. Mint DAO coins
+
 ```python
 import deso
 
