@@ -37,9 +37,11 @@ class Social:
         isHidden=False,
         repostedPostHash="",
         language="en",
+        postExtraData={},
 
     ):
-        postExtraData={"App": self.appName, "Language": language},
+        postExtraData["App"] = self.appName
+        postExtraData["Language"] = language
         try:
             error = None
             endpointURL = self.NODE_URL + "submit-post"
