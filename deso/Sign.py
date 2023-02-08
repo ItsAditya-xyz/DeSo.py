@@ -144,17 +144,6 @@ def Sign_Transaction(seedHex, TransactionHex):
     r = kpX % n
     s = inverse_mod(k, n) * (r * int(seedHex, 16) + int(s256.hex(), 16))
     s = s % n
-    def Sign_Transaction(seedHex, TransactionHex):
-    s256 = hashlib.sha256(
-        hashlib.sha256(bytes.fromhex(TransactionHex)).digest()
-    ).digest()
-    drbg = hmac_drbg(entropy=bytes.fromhex(seedHex), string=s256)
-    k = int.from_bytes(drbg, "big")
-    kp = scalar_mult(k, g)
-    kpX = kp[0]
-    r = kpX % n
-    s = inverse_mod(k, n) * (r * int(seedHex, 16) + int(s256.hex(), 16))
-    s = s % n
     # Enforce low-s
     if s > n // 2:
         s = n - s
@@ -174,3 +163,5 @@ def Sign_Transaction(seedHex, TransactionHex):
     )
 
     return signed_transaction
+
+    
