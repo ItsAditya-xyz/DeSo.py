@@ -37,9 +37,8 @@ class Social:
         isHidden=False,
         repostedPostHash="",
         language="en",
-
+        postExtraData={"App": "DesoPy", "Language": "en"},
     ):
-        postExtraData={"App": self.appName, "Language": language},
         try:
             error = None
             endpointURL = self.NODE_URL + "submit-post"
