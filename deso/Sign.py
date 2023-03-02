@@ -155,13 +155,3 @@ def Sign_Transaction(seedHex, TransactionHex):
     )
 
     return signed_transaction
-    signature = to_DER(hexify(r), hexify(s))
-    signed_transaction = (
-        TransactionHex[:-2]
-        + hex(len(bytearray.fromhex(signature)))[2:]
-        + signature
-    )
-
-    return signed_transaction
-
-    
