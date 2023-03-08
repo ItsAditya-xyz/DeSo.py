@@ -54,7 +54,6 @@ class Posts:
         endpointURL = self.NODE_URL + "get-single-post"
         payload = {
             "PostHashHex": postHashHex,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "FetchParents": fetchParents,
             "CommentOffset": commentOffset,
             "CommentLimit": commentLimit,

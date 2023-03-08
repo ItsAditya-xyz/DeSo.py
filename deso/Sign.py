@@ -144,7 +144,7 @@ def Sign_Transaction(seedHex, TransactionHex):
     r = kpX % n
     s = inverse_mod(k, n) * (r * int(seedHex, 16) + int(s256.hex(), 16))
     s = s % n
-    # Enforce low-s
+    # Enforce low-s -> credit to @Nathanwells 
     if s > n // 2:
         s = n - s
     signature = to_DER(hexify(r), hexify(s))

@@ -36,10 +36,10 @@ class Social:
         parentStakeID="",
         isHidden=False,
         repostedPostHash="",
-        language="en",
+        postExtraData={"Language": "en"},
 
     ):
-        postExtraData={"App": self.appName, "Language": language},
+        postExtraData["App"] = self.appName
         try:
             error = None
             endpointURL = self.NODE_URL + "submit-post"
@@ -432,8 +432,8 @@ class Social:
         creatorRoyality=0,
         coinHolderRoyality=0,
         isForSale=False,
-        AdditionalCoinRoyaltiesMap = {},
-        AdditionalDESORoyaltiesMap = {},
+        AdditionalCoinRoyaltiesMap={},
+        AdditionalDESORoyaltiesMap={},
     ):
         ''' Additional CC royality or deso wallet royality can be set by setting up AdditionalCoinRoyaltiesMap
         AdditionalDESORoyaltiesMap. It is map of PublicKey: percentage * 100.
@@ -486,7 +486,8 @@ class Social:
     def uploadToArweave(wallet, image):
         wallet = arweave.Wallet(wallet)
         with open(image, "rb", buffering=0) as file_handler:
-            tx = Transaction(wallet, file_handler=file_handler, file_path=image)
+            tx = Transaction(
+                wallet, file_handler=file_handler, file_path=image)
             file_extension = pathlib.Path(image).suffix
             type = str(file_extension[1:])
             tx.add_tag("Content-Type", "image/" + type)
