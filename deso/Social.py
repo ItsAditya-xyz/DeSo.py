@@ -451,6 +451,8 @@ class Social:
                 "IsForSale": isForSale,
                 "MinBidAmountNanos": round(minBidDeSo * 1e9),
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
+                "AdditionalDESORoyaltiesMap": AdditionalDESORoyaltiesMap,
+                "AdditionalCoinRoyaltiesMap": AdditionalCoinRoyaltiesMap,
             }
             response = requests.post(endpointURL, json=payload)
             error = response.json()
