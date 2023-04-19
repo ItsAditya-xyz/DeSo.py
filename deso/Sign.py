@@ -138,10 +138,12 @@ class SignTransaction:
         if len(n) % 2 != 0:
             n = "0" + n
         return n
+    
     # New for the Balance Model fork
     def getTransactionIndex(self, TransactionHex):
         endpointURL = self.NODE_URL + "signature-index"
-        response = requests.get(endpointURL + "/" + TransactionHex)
+        payload = {"TransactionHex": TransactionHex}
+        response = requests.post(endpointURL, json=payload)
         return response.json()['SignatureIndex']
     
     def Sign_Transaction(self, seedHex, TransactionHex):
