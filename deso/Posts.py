@@ -24,7 +24,7 @@ class Posts:
         endpointURL = self.NODE_URL + "get-posts-stateless"
         payload = {
             "PostHashHex": postHashHex,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+     
             "OrderBy": orderBy,
             "StartTstampSecs": None,
             "PostContent": postContent,
@@ -77,7 +77,7 @@ class Posts:
         payload = {
             "PublicKeyBase58Check": publicKey,
             "Username": username,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+          
             "LastPostHashHex": lastPostHashHex,
             "NumToFetch": numToFetch,
             "MediaRequired": mediaRequired,
@@ -96,7 +96,7 @@ class Posts:
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+            
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -112,7 +112,7 @@ class Posts:
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+ 
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -128,7 +128,6 @@ class Posts:
             "PostHashHex": postHashHex,
             "Offset": offset,
             "Limit": limit,
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
         }
         response = requests.post(endpointURL, json=payload)
         return response
@@ -139,7 +138,7 @@ class Posts:
     ):
         endpointURL = self.NODE_URL + "get-nft-entries-for-nft-post"
         payload = {
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+        
             "PostHashHex": postHashHex,
         }
         response = requests.post(endpointURL, json=payload)
@@ -151,7 +150,6 @@ class Posts:
     ):
         endpointURL = self.NODE_URL + "get-nft-bids-for-nft-post"
         payload = {
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
             "PostHashHex": postHashHex,
         }
         response = requests.post(endpointURL, json=payload)
@@ -174,7 +172,7 @@ class Posts:
         """Returns posts that has mentioned in username"""
         endpointURL = self.NODE_URL + "get-hot-feed"
         payload = {
-            "ReaderPublicKeyBase58Check": self.readerPublicKey,
+           
             "SeenPosts": seenPosts,
             "Tag": f"{inputTag}",
             "SortByNew": sortByNew,
