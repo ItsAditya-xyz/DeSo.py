@@ -32,7 +32,7 @@ setup(
         "decentralized social media"
     ],
     classifiers=[
-        "Development Status :: Production/Stable",
+        "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: Unix",
