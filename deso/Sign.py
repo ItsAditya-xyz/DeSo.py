@@ -1,7 +1,8 @@
-# This file has code for signing a transaction --> Credit: MiniGlome
+# This file has code for signing a transaction --> Credit: MiniGlome and nathanwells
 import hashlib
 import hmac
-
+import requests
+from deso.Route import getRoute
 
 def inverse_mod(k, p):
     """Returns the inverse of k modulo p.
@@ -131,11 +132,18 @@ def hexify(n):
     if len(n) % 2 != 0:
         n = "0" + n
     return n
+# New for the Balance Model fork
+def getTransactionIndex(TransactionHex):
+    endpointURL = getRoute() + "signature-index"
+    payload = {"TransactionHex": TransactionHex}
+    response = requests.post(endpointURL, json=payload)
+    return response.json()['SignatureIndex']
 
 
 def Sign_Transaction(seedHex, TransactionHex):
+    transactionBytes = bytes.fromhex(TransactionHex)
     s256 = hashlib.sha256(
-        hashlib.sha256(bytes.fromhex(TransactionHex)).digest()
+        hashlib.sha256(transactionBytes).digest()
     ).digest()
     drbg = hmac_drbg(entropy=bytes.fromhex(seedHex), string=s256)
     k = int.from_bytes(drbg, "big")
@@ -148,10 +156,15 @@ def Sign_Transaction(seedHex, TransactionHex):
     if s > n // 2:
         s = n - s
     signature = to_DER(hexify(r), hexify(s))
+    # Added for Balance Model fork
+    signatureIndex = int(getTransactionIndex(TransactionHex))
+    v0FieldsWithoutSignature = transactionBytes[:signatureIndex]
+    v1FieldsBuffer = transactionBytes[1 + signatureIndex:]
     signed_transaction = (
-        TransactionHex[:-2]
+        v0FieldsWithoutSignature.hex()
         + hex(len(bytearray.fromhex(signature)))[2:]
         + signature
+        + v1FieldsBuffer.hex()
     )
 
     return signed_transaction
