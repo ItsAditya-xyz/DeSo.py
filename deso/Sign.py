@@ -2,7 +2,9 @@
 import hashlib
 import hmac
 import requests
-from deso.Route import getRoute
+
+def getRoute():
+    return "https://node.deso.org/api/v0/"
 
 def inverse_mod(k, p):
     """Returns the inverse of k modulo p.
