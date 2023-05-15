@@ -119,7 +119,7 @@ class Associations:
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
             }
             response = requests.post(endpointURL, json=payload)
-            print(response.json(), 'first response')
+            
             transactionHex = response.json()["TransactionHex"]
             seedHexToSignWith = (
                 self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
@@ -135,8 +135,7 @@ class Associations:
             submitTransactionResponse = submitTransaction(
                 signedTransactionHex, self.NODE_URL
             )
-            print(submitTransactionResponse.json(), 'second response')
-            
+                        
             return submitTransactionResponse
 
 
@@ -327,7 +326,7 @@ class Associations:
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
             }
             response = requests.post(endpointURL, json=payload)
-            print(response.json(), 'first response')
+            
             transactionHex = response.json()["TransactionHex"]
             seedHexToSignWith = (
                 self.SEED_HEX if self.SEED_HEX else self.DERIVED_SEED_HEX
@@ -343,8 +342,7 @@ class Associations:
             submitTransactionResponse = submitTransaction(
                 signedTransactionHex, self.NODE_URL
             )
-            print(submitTransactionResponse.json(), 'second response')
-            
+                        
             return submitTransactionResponse
         
         except Exception as e:
