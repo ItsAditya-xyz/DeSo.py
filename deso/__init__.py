@@ -6,3 +6,4 @@ from deso.Derived import Derived
 from deso.Posts import Posts
 from deso.Trade import Trade
 from deso.User import User
+from deso.Associations import Associations
