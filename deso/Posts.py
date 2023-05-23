@@ -8,6 +8,7 @@ class Posts:
 
     def getPostsStateless(
         self,
+        readerPublicKey="",
         addGlobalFeedBool=False,
         fetchSubcommnets=False,
         getPostsByDESO=False,
@@ -24,7 +25,7 @@ class Posts:
         endpointURL = self.NODE_URL + "get-posts-stateless"
         payload = {
             "PostHashHex": postHashHex,
-     
+            "ReaderPublicKeyBase58Check": readerPublicKey,
             "OrderBy": orderBy,
             "StartTstampSecs": None,
             "PostContent": postContent,
