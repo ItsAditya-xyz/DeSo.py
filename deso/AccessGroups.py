@@ -106,7 +106,7 @@ class AccessGroups:
 
     # ALL WRITE APIS BELOW (BETA)
 
-    def createAccessGroup(self, accessGroupPublicKey, accessGroupKeyName, TransactionFees=[], extraData={}):
+    def createAccessGroup(self, accessGroupPublicKey, accessGroupKeyName, transactionFees=[], extraData={}):
         try:
             error = None
             endpointURL = self.NODE_URL + "create-access-group"
@@ -115,7 +115,7 @@ class AccessGroups:
                 "AccessGroupPublicKeyBase58Check": accessGroupPublicKey,
                 "AccessGroupKeyName": accessGroupKeyName,
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
-                "TransactionFees": TransactionFees,
+                "TransactionFees": transactionFees,
                 "ExtraData": extraData,
             }
             response = requests.post(endpointURL, json=payload)
@@ -149,7 +149,7 @@ class AccessGroups:
         except Exception as e:
             raise Exception(error["error"])
 
-    def updateAccessGroup(self, accessGroupPublicKey, accessGroupKeyName, TransactionFees=[], extraData={}):
+    def updateAccessGroup(self, accessGroupPublicKey, accessGroupKeyName, transactionFees=[], extraData={}):
         try:
             error = None
             endpointURL = self.NODE_URL + "update-access-group"
@@ -158,7 +158,7 @@ class AccessGroups:
                 "AccessGroupPublicKeyBase58Check": accessGroupPublicKey,
                 "AccessGroupKeyName": accessGroupKeyName,
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
-                "TransactionFees": TransactionFees,
+                "TransactionFees": transactionFees,
                 "ExtraData": extraData,
             }
             response = requests.post(endpointURL, json=payload)
@@ -192,7 +192,7 @@ class AccessGroups:
         except Exception as e:
             raise Exception(error["error"])
 
-    def addAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, TransactionFees=[], extraData={}):
+    def addAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, transactionFees=[], extraData={}):
         try:
             error = None
             endpointURL = self.NODE_URL + "add-access-group-members"
@@ -200,7 +200,7 @@ class AccessGroups:
                 "AccessGroupOwnerPublicKeyBase58Check": self.PUBLIC_KEY,
                 "AccessGroupKeyName": accessGroupKeyName,
                 "AccessGroupMemberList": accessGroupMemberList,
-                "TransactionFees": TransactionFees,
+                "TransactionFees": transactionFees,
                 "ExtraData": extraData,
             }
             response = requests.post(endpointURL, json=payload)
@@ -234,7 +234,7 @@ class AccessGroups:
         except Exception as e:
             raise Exception(error["error"])
 
-    def removeAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, TransactionFees=[], extraData={}):
+    def removeAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, transactionFees=[], extraData={}):
         try:
             error = None
             endpointURL = self.NODE_URL + "remove-access-group-members"
@@ -242,7 +242,7 @@ class AccessGroups:
                 "AccessGroupOwnerPublicKeyBase58Check": self.PUBLIC_KEY,
                 "AccessGroupKeyName": accessGroupKeyName,
                 "AccessGroupMemberList": accessGroupMemberList,
-                "TransactionFees": TransactionFees,
+                "TransactionFees": transactionFees,
                 "ExtraData": extraData,
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
             }
@@ -277,7 +277,7 @@ class AccessGroups:
         except Exception as e:
             raise Exception(error["error"])
 
-    def updateAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, TransactionFees=[], extraData={}):
+    def updateAccessGroupMembers(self, accessGroupKeyName, accessGroupMemberList, transactionFees=[], extraData={}):
         '''Note that you can only update the EncryptedKey and ExtraData attributes of an AccessGroupMember's entry. 
         If you need to change the AccessGroupMemberKeyName, you'll need to remove and re-add them'''
         try:
@@ -287,7 +287,7 @@ class AccessGroups:
                 "AccessGroupOwnerPublicKeyBase58Check": self.PUBLIC_KEY,
                 "AccessGroupKeyName": accessGroupKeyName,
                 "AccessGroupMemberList": accessGroupMemberList,
-                "TransactionFees": TransactionFees,
+                "TransactionFees": transactionFees,
                 "ExtraData": extraData,
                 "MinFeeRateNanosPerKB": self.MIN_FEE,
             }
