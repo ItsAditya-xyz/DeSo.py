@@ -5,7 +5,7 @@ from deso.Sign import Sign_Transaction
 
 class Associations:
     def __init__(self, 
-        publicKey="BC1YLhfrQMbHHZVw6XH38eHtYJaQtk4hYoKDy3mKmd88b141hZYcGGM",
+        publicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",
         nodeURL="https://node.deso.org/api/v0/", 
         readerPublicKey="BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop",        
         seedHex=None,
